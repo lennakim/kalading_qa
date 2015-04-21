@@ -1,0 +1,38 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  pool: 5
+  username: root
+  password:
+  socket: /tmp/mysql.sock
+
+development:
+  <<: *default
+  database: kalading_qa_development
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: kalading_qa_test
+
+staging:
+  <<: *default
+  database: kalading_qa_development
+
+production:
+  <<: *default
+  database: kalading_qa_development
+
+# 网站数据库
+kalading_web:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  pool: 5
+  username: root
+  password:
+  socket: /tmp/mysql.sock
+  database: kalading_web_development

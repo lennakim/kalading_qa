@@ -1,0 +1,2 @@
+class ExternalManagement
+end

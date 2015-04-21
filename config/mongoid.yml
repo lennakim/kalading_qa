@@ -1,0 +1,40 @@
+# 后台生产管理数据库
+development:
+  sessions:
+    default:
+      database: kalading_development
+      hosts:
+        - localhost:27017
+  options:
+    raise_not_found_error: false
+
+test:
+  sessions:
+    default:
+      database: kalading_test
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+        # In the test environment we lower the retries and retry interval to
+        # low amounts for fast failures.
+        max_retries: 1
+        retry_interval: 0
+
+staging:
+  sessions:
+    default:
+      database: kalading_development
+      hosts:
+        - localhost:27017
+  options:
+    raise_not_found_error: false
+
+production:
+  sessions:
+    default:
+      database: kalading_development
+      hosts:
+        - localhost:27017
+  options:
+    raise_not_found_error: false
