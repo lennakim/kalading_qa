@@ -1,4 +1,4 @@
-class AutoBrand < ExternalManagement
+class AutoSubmodel < ExternalManagement
   include Mongoid::Document
   include Mongoid::Timestamps
 
@@ -6,5 +6,5 @@ class AutoBrand < ExternalManagement
 
   attr_readonly *fields.keys
 
-  has_many :auto_models
+  belongs_to :auto_model
 end
