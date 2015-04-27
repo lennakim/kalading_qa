@@ -22,6 +22,7 @@ gem 'mongoid'
 gem 'kaminari'
 gem 'slim-rails'
 gem 'simple_form'
+gem 'aasm'
 
 group :development, :test do
   gem 'thin'

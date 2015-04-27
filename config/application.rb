@@ -22,6 +22,8 @@ module KaladingQa
 
     config.generators do |g|
       g.orm :active_record
+      g.view_specs      false
+      g.helper_specs    false
     end
   end
 end
