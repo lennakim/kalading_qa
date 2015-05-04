@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150504054231) do
+ActiveRecord::Schema.define(version: 20150504063423) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -49,13 +49,13 @@ ActiveRecord::Schema.define(version: 20150504054231) do
     t.string   "auto_submodel_id", limit: 255
     t.integer  "customer_id",      limit: 4
     t.text     "content",          limit: 65535
-    t.string   "status",           limit: 255
+    t.string   "state",            limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "questions", ["customer_id"], name: "index_questions_on_customer_id", using: :btree
-  add_index "questions", ["status", "created_at"], name: "index_questions_on_status_and_created_at", using: :btree
+  add_index "questions", ["state", "created_at"], name: "index_questions_on_state_and_created_at", using: :btree
 
   create_table "questions_tags", id: false, force: :cascade do |t|
     t.integer "question_id", limit: 4

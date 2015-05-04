@@ -14,14 +14,15 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 
-gem 'jbuilder', '~> 2.0'
-gem 'devise'
-gem 'mongoid'
-
 # view
 gem 'kaminari'
 gem 'slim-rails'
 gem 'simple_form'
+
+# others
+gem 'jbuilder', '~> 2.0'
+gem 'devise'
+gem 'mongoid'
 gem 'aasm'
 
 group :development, :test do
