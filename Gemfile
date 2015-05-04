@@ -24,6 +24,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'devise'
 gem 'mongoid'
 gem 'aasm'
+gem 'settingslogic'
 
 group :development, :test do
   gem 'thin'
