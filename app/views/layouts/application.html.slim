@@ -1,0 +1,25 @@
+html
+  head
+    title 问答系统
+    meta[charset="utf-8"]
+    meta[http-equiv="X-UA-Compatible" content="IE=edge"]
+    meta[content="width=device-width, initial-scale=1.0" name="viewport"]
+    meta[name="MobileOptimized" content="320"]
+
+    = stylesheet_link_tag "application", media: "all", 'data-turbolinks-track' => true
+
+    = csrf_meta_tags
+
+  body
+    .header
+      = render 'layouts/header'
+
+    .container-fluid
+      .row
+        .col-md-2.col-md-offset-0
+          = render 'layouts/sidebar'
+
+        .col-md-10
+          = yield
+
+    = javascript_include_tag "application", 'data-turbolinks-track' => true
