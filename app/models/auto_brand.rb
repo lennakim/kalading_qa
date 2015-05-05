@@ -1,10 +1,5 @@
-class AutoBrand < ExternalManagement
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class AutoBrand < ActiveRecord::Base
+  validates_presence_of :name, :internal_id
 
-  field :name, type: String
-
-  attr_readonly *fields.keys
-
-  has_many :auto_models
+  has_many :auto_models, dependent: :destroy
 end

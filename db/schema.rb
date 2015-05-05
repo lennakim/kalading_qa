@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150504093445) do
+ActiveRecord::Schema.define(version: 20150505014146) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -25,12 +25,44 @@ ActiveRecord::Schema.define(version: 20150504093445) do
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
   add_index "answers", ["replier_id"], name: "index_answers_on_replier_id", using: :btree
 
+  create_table "auto_brands", force: :cascade do |t|
+    t.string   "name",        limit: 255, null: false
+    t.string   "internal_id", limit: 255, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "auto_brands", ["internal_id"], name: "index_auto_brands_on_internal_id", using: :btree
+
+  create_table "auto_models", force: :cascade do |t|
+    t.string   "name",          limit: 255, null: false
+    t.string   "internal_id",   limit: 255, null: false
+    t.integer  "auto_brand_id", limit: 4,   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "auto_models", ["auto_brand_id"], name: "index_auto_models_on_auto_brand_id", using: :btree
+  add_index "auto_models", ["internal_id"], name: "index_auto_models_on_internal_id", using: :btree
+
+  create_table "auto_submodels", force: :cascade do |t|
+    t.string   "name",          limit: 255, null: false
+    t.string   "full_name",     limit: 255, null: false
+    t.string   "internal_id",   limit: 255, null: false
+    t.integer  "auto_model_id", limit: 4,   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "auto_submodels", ["auto_model_id"], name: "index_auto_submodels_on_auto_model_id", using: :btree
+  add_index "auto_submodels", ["internal_id"], name: "index_auto_submodels_on_internal_id", using: :btree
+
   create_table "question_bases", force: :cascade do |t|
-    t.string   "auto_brand_id",    limit: 255
-    t.string   "auto_model_id",    limit: 255
-    t.string   "auto_submodel_id", limit: 255
-    t.text     "question_content", limit: 65535
-    t.text     "answer_content",   limit: 65535
+    t.string   "auto_brand_internal_id",    limit: 255
+    t.string   "auto_model_internal_id",    limit: 255
+    t.string   "auto_submodel_internal_id", limit: 255
+    t.text     "question_content",          limit: 65535
+    t.text     "answer_content",            limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -44,12 +76,12 @@ ActiveRecord::Schema.define(version: 20150504093445) do
   add_index "question_bases_tags", ["tag_id"], name: "index_question_bases_tags_on_tag_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
-    t.string   "auto_brand_id",    limit: 255
-    t.string   "auto_model_id",    limit: 255
-    t.string   "auto_submodel_id", limit: 255
-    t.integer  "customer_id",      limit: 4
-    t.text     "content",          limit: 65535
-    t.string   "state",            limit: 255
+    t.string   "auto_brand_internal_id",    limit: 255
+    t.string   "auto_model_internal_id",    limit: 255
+    t.string   "auto_submodel_internal_id", limit: 255
+    t.integer  "customer_id",               limit: 4
+    t.text     "content",                   limit: 65535
+    t.string   "state",                     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end

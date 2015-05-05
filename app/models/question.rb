@@ -3,9 +3,9 @@ class Question < ActiveRecord::Base
 
   has_many :answers, dependent: :destroy
   has_and_belongs_to_many :tags
-  belongs_to :auto_brand
-  belongs_to :auto_model
-  belongs_to :auto_submodel
+  belongs_to :auto_brand, foreign_key: 'auto_brand_internal_id', primary_key: 'internal_id'
+  belongs_to :auto_model, foreign_key: 'auto_model_internal_id', primary_key: 'internal_id'
+  belongs_to :auto_submodel, foreign_key: 'auto_submodel_internal_id', primary_key: 'internal_id'
   belongs_to :customer
 
   aasm column: 'state' do
