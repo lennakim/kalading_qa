@@ -25,6 +25,7 @@ gem 'devise', '~> 3.4.0'
 gem 'mongoid'
 gem 'aasm'
 gem 'settingslogic'
+gem 'cancan'
 
 group :development, :test do
   gem 'thin'

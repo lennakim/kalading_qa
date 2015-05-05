@@ -49,6 +49,7 @@ GEM
     bson (2.3.0)
     builder (3.2.2)
     callsite (0.0.11)
+    cancan (1.6.10)
     capistrano (3.4.0)
       i18n
       rake (>= 10.0.0)
@@ -277,6 +278,7 @@ DEPENDENCIES
   awesome_print
   better_errors
   binding_of_caller
+  cancan
   capistrano
   capistrano-bundler
   capistrano-rails
