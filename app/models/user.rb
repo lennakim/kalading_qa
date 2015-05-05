@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :rememberable, :trackable, :lockable
 
-  validates_presence_of :phone_num, :role
+  validates :phone_num, presence: true, uniqueness: true
+  validates :role, presence: true
 
   ROLES = %w[dispatcher engineer expert]
 
