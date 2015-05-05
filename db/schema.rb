@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150504063423) do
+ActiveRecord::Schema.define(version: 20150504093445) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -70,5 +70,25 @@ ActiveRecord::Schema.define(version: 20150504063423) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "phone_num",           limit: 255, default: "", null: false
+    t.string   "encrypted_password",  limit: 255, default: "", null: false
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",       limit: 4,   default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip",  limit: 255
+    t.string   "last_sign_in_ip",     limit: 255
+    t.integer  "failed_attempts",     limit: 4,   default: 0,  null: false
+    t.datetime "locked_at"
+    t.string   "role",                limit: 255,              null: false
+    t.string   "name",                limit: 255
+    t.string   "name_pinyin",         limit: 255, default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["phone_num"], name: "index_users_on_phone_num", unique: true, using: :btree
 
 end

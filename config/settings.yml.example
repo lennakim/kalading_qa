@@ -3,6 +3,7 @@ defaults: &defaults
 
 development:
   <<: *defaults
+  use_local_data: true
 
 test:
   <<: *defaults

@@ -6,8 +6,8 @@ gem 'rails', '4.2.1'
 gem 'mysql2'
 
 # assets
-gem 'bootstrap-sass', '~> 3.3.1'
 gem 'sass-rails', '~> 4.0.3'
+gem 'twitter-bootstrap-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
@@ -21,7 +21,7 @@ gem 'simple_form'
 
 # others
 gem 'jbuilder', '~> 2.0'
-gem 'devise'
+gem 'devise', '~> 3.4.0'
 gem 'mongoid'
 gem 'aasm'
 gem 'settingslogic'

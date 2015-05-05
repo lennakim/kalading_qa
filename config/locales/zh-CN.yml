@@ -1,0 +1,8 @@
+zh-CN:
+  activerecord:
+    models:
+    attributes:
+      user:
+        phone_num: '联系电话'
+        password: '密码'
+        remember_me: '记住密码'

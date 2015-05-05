@@ -2,3 +2,5 @@
   .container-fluid
     .navbar-header
       = link_to '问答系统', '/', class: 'navbar-brand'
+    .pull-right
+      = link_to '注销', destroy_user_session_path, method: :delete, class: 'btn btn-link'
