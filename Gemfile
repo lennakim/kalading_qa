@@ -20,6 +20,10 @@ gem 'kaminari-bootstrap', '~> 3.0.1'
 gem 'slim-rails'
 gem 'simple_form'
 
+# background processing
+gem 'sidekiq'
+gem 'sinatra', :require => false
+
 # others
 gem 'jbuilder', '~> 2.0'
 gem 'devise', '~> 3.4.0'

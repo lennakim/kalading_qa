@@ -25,5 +25,8 @@ module KaladingQa
       g.view_specs      false
       g.helper_specs    false
     end
+
+    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_name_prefix = Rails.env
   end
 end

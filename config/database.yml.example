@@ -24,6 +24,7 @@ staging:
 
 production:
   <<: *default
+  pool: 10
   database: kalading_qa_development
 
 # 网站数据库

@@ -1,0 +1,19 @@
+---
+:concurrency: 5
+:pidfile: tmp/pids/sidekiq.pid
+:queues:
+  - development_urgent
+  - development_default
+  - development_low
+staging:
+  :concurrency: 5
+  :queues:
+    - staging_urgent
+    - staging_default
+    - staging_low
+production:
+  :concurrency: 20
+  :queues:
+    - production_urgent
+    - production_default
+    - production_low

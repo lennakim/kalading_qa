@@ -19,5 +19,6 @@
 /config/mongoid.yml
 /config/secrets.yml
 /config/settings.yml
+/config/sidekiq.yml
 
 /public/assets
