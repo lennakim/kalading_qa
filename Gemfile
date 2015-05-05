@@ -31,6 +31,7 @@ gem 'mongoid'
 gem 'aasm'
 gem 'settingslogic'
 gem 'cancan'
+gem 'rest-client'
 
 group :development, :test do
   gem 'thin'

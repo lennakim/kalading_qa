@@ -6,6 +6,7 @@ development:
   # 登录时不调用后台API，而是使用本地数据
   # 仅development环境有用
   use_local_data: true
+  kalading_management_api_uri: "http://121.42.155.108:81"
 
 test:
   <<: *defaults

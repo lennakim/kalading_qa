@@ -20,6 +20,8 @@ module KaladingQa
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = 'zh-CN'
 
+    config.eager_load_paths += %W[#{config.root}/lib/api_clients]
+
     config.generators do |g|
       g.orm :active_record
       g.view_specs      false
