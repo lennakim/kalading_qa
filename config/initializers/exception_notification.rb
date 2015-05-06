@@ -19,7 +19,7 @@ ExceptionNotification.configure do |config|
     email_prefix: "[问答][#{Rails.env}] ",
     sender_address: %{"noreply" <noreply@kalading.com>},
     exception_recipients: Settings.exception_notification.recipients,
-    # email_format: :html
+    email_format: :html
   }
 
   # Campfire notifier sends notifications to your Campfire room. Requires 'tinder' gem.
