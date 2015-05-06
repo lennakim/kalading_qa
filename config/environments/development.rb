@@ -13,9 +13,6 @@ Rails.application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -34,4 +31,17 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.action_mailer.delivery_method = :letter_opener
+  # config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              Settings.mailer.smtp.address,
+    port:                 Settings.mailer.smtp.port,
+    domain:               Settings.mailer.smtp.domain,
+    user_name:            Settings.mailer.smtp.user_name,
+    password:             Settings.mailer.smtp.password,
+    authentication:       'login',
+    enable_starttls_auto: true }
+
+  config.action_mailer.raise_delivery_errors = false
 end

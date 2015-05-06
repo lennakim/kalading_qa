@@ -47,6 +47,7 @@ group :development, :test do
   gem 'better_errors'
   gem 'meta_request'
   gem 'binding_of_caller'
+  gem 'letter_opener'
 end
 
 # Use ActiveModel has_secure_password
@@ -58,7 +59,7 @@ gem 'unicorn'
 # monitor
 gem 'newrelic_rpm'
 gem 'slack-notifier'
-gem 'exception_notification'
+gem 'exception_notification', '~> 4.0.1'
 
 # deployment
 group :development do

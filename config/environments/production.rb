@@ -60,9 +60,19 @@ Rails.application.configure do
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
   # config.assets.precompile += %w( search.js )
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              Settings.mailer.smtp.address,
+    port:                 Settings.mailer.smtp.port,
+    domain:               Settings.mailer.smtp.domain,
+    user_name:            Settings.mailer.smtp.user_name,
+    password:             Settings.mailer.smtp.password,
+    authentication:       'login',
+    enable_starttls_auto: true }
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = false
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
