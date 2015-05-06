@@ -22,3 +22,4 @@
 /config/sidekiq.yml
 
 /public/assets
+/public/uploads

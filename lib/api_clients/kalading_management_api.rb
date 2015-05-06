@@ -2,6 +2,8 @@ module KaladingManagementApi
   extend self
 
   def call(method, api_name, params = {})
+    raise "Please fill out kalading_management_api_uri in config/settings.yml" if Settings.kalading_management_api_uri.blank?
+
     url = URI.join("#{Settings.kalading_management_api_uri}/#{api_name}/", params.delete(:id)).to_s.chomp('/') + '.json'
 
     response = Timeout::timeout(10) {

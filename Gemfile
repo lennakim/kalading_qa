@@ -14,6 +14,12 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 
+# pic uploading
+gem 'carrierwave'
+gem 'carrierwave-qiniu'
+gem 'qiniu-rs'
+gem 'mini_magick'
+
 # view
 gem 'kaminari'
 gem 'kaminari-bootstrap', '~> 3.0.1'

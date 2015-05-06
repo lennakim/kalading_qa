@@ -7,15 +7,6 @@ development:
   # 仅development环境有用
   use_local_data: true
   kalading_management_api_uri: "http://121.42.155.108:81"
-
-test:
-  <<: *defaults
-
-staging:
-  <<: *defaults
-
-production:
-  <<: *defaults
   mailer:
     smtp:
       address: ''
@@ -26,3 +17,35 @@ production:
   exception_notification:
     recipients:
       - ''
+  pic_storage: 'file'
+  qiniu:
+    access_key: ''
+    secret_key: ''
+    bucket: ''
+    bucket_domain: ''
+
+test:
+  <<: *defaults
+
+staging:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  kalading_management_api_uri: ""
+  mailer:
+    smtp:
+      address: ''
+      port: 25
+      domain: ''
+      user_name: ''
+      password: ''
+  exception_notification:
+    recipients:
+      - ''
+  pic_storage: 'qiniu'
+  qiniu:
+    access_key: ''
+    secret_key: ''
+    bucket: ''
+    bucket_domain: ''
