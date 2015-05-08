@@ -1,6 +1,9 @@
 class Question < ActiveRecord::Base
   include AASM
 
+  serialize :images, JSON
+  mount_uploaders :images, ImageUploader
+
   has_many :answers, dependent: :destroy
   has_and_belongs_to_many :tags
   belongs_to :auto_brand, foreign_key: 'auto_brand_internal_id', primary_key: 'internal_id'

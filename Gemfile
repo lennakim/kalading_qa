@@ -15,7 +15,9 @@ gem 'turbolinks'
 gem 'jquery-turbolinks'
 
 # pic uploading
-gem 'carrierwave'
+# gem 'carrierwave'
+# 为了能一次添加多个图片，所以用这个版本
+gem 'carrierwave', github:'carrierwaveuploader/carrierwave', ref: '01f7ec68d0403dfeec13e5f177ffa7e272b230aa'
 gem 'carrierwave-qiniu'
 gem 'qiniu-rs'
 gem 'mini_magick'

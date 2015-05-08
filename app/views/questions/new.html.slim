@@ -1,0 +1,3 @@
+= simple_form_for @question, html: { multipart: true } do |f|
+  = f.input :images, as: :file, input_html: {multiple: true}
+  = f.submit

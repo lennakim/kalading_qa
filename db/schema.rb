@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150505014146) do
+ActiveRecord::Schema.define(version: 20150508080024) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20150505014146) do
     t.string   "state",                     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "images",                    limit: 65535
   end
 
   add_index "questions", ["customer_id"], name: "index_questions_on_customer_id", using: :btree
