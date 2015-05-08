@@ -56,6 +56,7 @@ group :development, :test do
   gem 'meta_request'
   gem 'binding_of_caller'
   gem 'letter_opener'
+  gem 'byebug'
 end
 
 # Use ActiveModel has_secure_password
