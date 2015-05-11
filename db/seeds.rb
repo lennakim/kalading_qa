@@ -2,6 +2,18 @@
   Tag.find_or_create_by(name: tag_name)
 end
 
+# 创建总裁登录帐号
+if !User.where(phone_num: '18655550002').exists?
+  User.create!(
+    phone_num: '18655550002',
+    password: '1'*6,
+    role: 'manager',
+    name: '总裁',
+    name_pinyin: 'zongcai',
+    internal_id: 'internal_0002_0'
+  )
+end
+
 # 创建客服登录帐号
 if !User.where(phone_num: '18655550006').exists?
   User.create!(
