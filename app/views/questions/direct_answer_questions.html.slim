@@ -6,6 +6,4 @@ table.table.table-striped.table-hover
           = truncate(question.content, length: 20)
         td
           = question.auto_submodel.try(:full_name)
-        td
-          = link_to '编辑', '#', class: 'btn btn-small'
 = paginate @questions

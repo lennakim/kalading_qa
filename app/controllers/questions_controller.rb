@@ -2,15 +2,20 @@ class QuestionsController < ApplicationController
   load_resource only: [:nullify, :to_dispatcher, :to_engineer]
 
   def index
-    params[:state] ||= 'init'
+    redirect_to dispatcher_questions_path and return if current_user.dispatcher?
 
-    case params[:state]
-    when 'init'
-      authorize! :read_init, Question
-    end
+    params[:state] ||= 'init'
+    authorize! :"read_#{params[:state]}", Question
 
     @questions = Question.where(state: params[:state]).page(params[:page])
     render "#{params[:state]}_questions"
+  end
+
+  def dispatcher_questions
+    authorize! :direct_answer, Question
+
+    @questions = QuestionAssignment.where(user_internal_id: current_user.internal_id)
+                                   .includes(:question).all.map(&:question)
   end
 
   def nullify

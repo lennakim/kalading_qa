@@ -14,5 +14,9 @@ Rails.application.routes.draw do
       put :to_dispatcher
       put :to_engineer
     end
+
+    collection do
+      get :dispatcher_questions, as: :dispatcher
+    end
   end
 end

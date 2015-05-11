@@ -1,7 +1,12 @@
 ul.nav.nav-stacked
   li
     = link_to '审核（分配）', questions_path(state: 'init') if can? :read_init, Question
-    = link_to '客服处理问题', '#'
+
+    - if can? :read_direct_answer, Question
+      = link_to '客服处理问题', questions_path(state: 'direct_answer')
+    - elsif can? :direct_answer, Question
+      = link_to '客服处理问题', dispatcher_questions_path
+
     = link_to '已群发技师', '#'
     = link_to '已分配专家', '#'
     = link_to '已解答（未采纳）', '#'
