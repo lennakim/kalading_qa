@@ -11,6 +11,8 @@ class Question < ActiveRecord::Base
   belongs_to :auto_submodel, foreign_key: 'auto_submodel_internal_id', primary_key: 'internal_id'
   belongs_to :customer
 
+  validates_presence_of :auto_submodel_internal_id, :customer_id, :content, :state
+
   aasm column: 'state' do
     state :new, initial: true
     # 无效
