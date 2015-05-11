@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150511024521) do
+ActiveRecord::Schema.define(version: 20150511093818) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -56,6 +56,18 @@ ActiveRecord::Schema.define(version: 20150511024521) do
 
   add_index "auto_submodels", ["auto_model_id"], name: "index_auto_submodels_on_auto_model_id", using: :btree
   add_index "auto_submodels", ["internal_id"], name: "index_auto_submodels_on_internal_id", using: :btree
+
+  create_table "question_assignments", force: :cascade do |t|
+    t.integer  "question_id",      limit: 4,   null: false
+    t.string   "user_internal_id", limit: 255, null: false
+    t.string   "user_role",        limit: 255, null: false
+    t.string   "state",            limit: 255, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "question_assignments", ["question_id", "state"], name: "index_question_assignments_on_question_id_and_state", using: :btree
+  add_index "question_assignments", ["user_internal_id", "state"], name: "index_question_assignments_on_user_internal_id_and_state", using: :btree
 
   create_table "question_bases", force: :cascade do |t|
     t.string   "auto_brand_internal_id",    limit: 255
@@ -125,5 +137,6 @@ ActiveRecord::Schema.define(version: 20150511024521) do
 
   add_index "users", ["internal_id"], name: "index_users_on_internal_id", using: :btree
   add_index "users", ["phone_num"], name: "index_users_on_phone_num", unique: true, using: :btree
+  add_index "users", ["role"], name: "index_users_on_role", using: :btree
 
 end

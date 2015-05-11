@@ -1,0 +1,10 @@
+table.table.table-striped.table-hover
+  tbody
+    - @questions.each do |question|
+      tr
+        td(title=question.content)
+          = truncate(question.content, length: 20)
+        td
+          = question.auto_submodel.try(:full_name)
+        td
+          = link_to '编辑', '#', class: 'btn btn-small'

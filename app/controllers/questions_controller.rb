@@ -1,9 +1,45 @@
 class QuestionsController < ApplicationController
+  load_resource only: [:nullify, :to_dispatcher, :to_engineer]
+
   def index
-    params[:state] ||= 'new'
+    params[:state] ||= 'init'
+
+    case params[:state]
+    when 'init'
+      authorize! :read_init, Question
+    end
 
     @questions = Question.where(state: params[:state]).page(params[:page])
     render "#{params[:state]}_questions"
+  end
+
+  def nullify
+    authorize! :check, Question
+
+    if @question.nullify!
+      flash[:notice] = '标为无效问题成功'
+    else
+      flash[:error] = '标为无效问题失败'
+    end
+    redirect_to questions_path(state: 'init')
+  end
+
+  def to_dispatcher
+    authorize! :check, Question
+
+    ids = User.dispatchers.pluck(:internal_id)
+    if @question.assign_to_dispatcher!(ids[rand(ids.size)])
+      flash[:notice] = '分配给客服成功'
+    else
+      flash[:error] = '分配给客服失败'
+    end
+    redirect_to questions_path(state: 'init')
+  end
+
+  def to_engineer
+    authorize! :check, Question
+
+    # @question
   end
 
   # 示例，以后不需要了可以删掉

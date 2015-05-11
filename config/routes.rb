@@ -8,5 +8,11 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { sessions: 'sessions' }
 
-  resources :questions, only: [:index, :new, :create]
+  resources :questions, only: [:index, :new, :create] do
+    member do
+      put :nullify
+      put :to_dispatcher
+      put :to_engineer
+    end
+  end
 end

@@ -11,4 +11,8 @@ class User < ActiveRecord::Base
       self.role == role
     end
   end
+
+  def self.dispatchers
+    where(role: 'dispatcher').all
+  end
 end
