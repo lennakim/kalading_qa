@@ -3,7 +3,7 @@ table.table.table-striped.table-hover
     - @questions.each do |question|
       tr
         td(title=question.content)
-          = truncate(question.content, length: 20)
+          = truncate_question_content(question.content)
         td
           = question.auto_submodel.try(:full_name)
 = paginate @questions

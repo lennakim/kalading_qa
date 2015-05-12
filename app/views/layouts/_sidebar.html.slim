@@ -7,7 +7,7 @@ ul.nav.nav-stacked
     - elsif can? :direct_answer, Question
       = link_to '客服处理问题', dispatcher_questions_path
 
-    = link_to '已群发技师', '#'
+    = link_to '已群发技师', questions_path(state: 'race') if can? :read_race, Question
     = link_to '已分配专家', '#'
     = link_to '已解答（未采纳）', '#'
     = link_to '已采纳', '#'

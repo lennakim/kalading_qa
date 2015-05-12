@@ -7,5 +7,5 @@ table.table.table-striped.table-hover
         td
           = question.auto_submodel.try(:full_name)
         td
-          = link_to '编辑', '#', class: 'btn btn-small'
-= paginate @questions
+          - if question.any_engineer_raced?
+            | 正在解答

@@ -3,12 +3,12 @@ table.table.table-striped.table-hover
     - @questions.each do |question|
       tr
         td(title=question.content)
-          = truncate(question.content, length: 20)
+          = truncate_question_content(question.content)
         td
           = question.auto_submodel.try(:full_name)
         td
           - if can? :check, Question
-            = link_to '无效问题', nullify_question_path(question), class: 'btn btn-small', method: :put
-            => link_to '客服', to_dispatcher_question_path(question), class: 'btn btn-small', method: :put
-            => link_to '技师', to_engineer_question_path(question), class: 'btn btn-small', method: :put
+            => link_to '无效问题', nullify_question_path(question), class: 'btn btn-small btn-danger', method: :put, :'data-confirm' => '确定该问题无效吗？'
+            => link_to '客服', to_dispatcher_question_path(question), class: 'btn btn-small btn-primary', method: :put
+            => link_to '技师', to_engineer_question_path(question), class: 'btn btn-small btn-primary', method: :put
 = paginate @questions
