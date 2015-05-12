@@ -2,6 +2,7 @@ class Question < ActiveRecord::Base
   include AASM
 
   ENGINEER_RACING_DURATION = 1.hour
+  MAX_RACING_COUNT = 8
 
   serialize :images, JSON
   mount_uploaders :images, ImageUploader
@@ -14,6 +15,10 @@ class Question < ActiveRecord::Base
   belongs_to :auto_submodel, foreign_key: 'auto_submodel_internal_id', primary_key: 'internal_id'
   belongs_to :customer
 
+  validates :engineer_race_count, numericality: { only_integer: true,
+                                                  allow_nil: true,
+                                                  greater_than_or_equal_to: 0,
+                                                  less_than_or_equal_to: MAX_RACING_COUNT }
   validates_presence_of :auto_submodel_internal_id, :customer_id, :content, :state
 
   aasm column: 'state' do
@@ -79,5 +84,30 @@ class Question < ActiveRecord::Base
 
   def any_engineer_raced?
     engineer_race_count > 0
+  end
+
+  def can_be_raced?
+    engineer_race_count <= MAX_RACING_COUNT
+  end
+
+  def race_by_engineer(engineer_id)
+    if !can_be_raced?
+      errors.add(:base, '已被其他技师抢到，您不能再抢答此题')
+      return false
+    end
+
+    assignment = question_assignments.build(
+      user_internal_id: engineer_id,
+      user_role: 'engineer'
+    )
+    transaction do
+      assignment.save!
+      increment(:engineer_race_count)
+      save!(validate: false)
+    end
+    true
+  rescue ActiveRecord::RecordInvalid
+    logger.warn("Engineer race question failed: #{assignment.errors.full_messages.join(', ')}. question id: #{id}, engineer internal id: #{engineer_id}")
+    false
   end
 end
