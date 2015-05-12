@@ -7,18 +7,31 @@ class QuestionAssignment < ActiveRecord::Base
   validates :question_id, uniqueness: { scope: :user_internal_id }
   validates_presence_of :question_id, :user_internal_id, :user_role, :state
 
-  # after_create :update_question_count
-
   aasm column: 'state' do
     state :processing, initial: true
-    state :finished
+    state :answered
+    state :expired
 
     event :process do
-      transitions from: :processing, to: :finished
+      before do
+        empty_expire_at
+      end
+      transitions from: :processing, to: :answered
+    end
+
+    event :expire do
+      after do
+        decrement_question_count!
+      end
+      transitions from: :processing, to: :expired
     end
   end
 
-  # def update_question_count
-    # question.increment(:engineer_race_count) if user_role == 'engineer'
-  # end
+  def empty_expire_at
+    self.expire_at = nil
+  end
+
+  def decrement_question_count!
+    question.decrement(:engineer_race_count).save!(validate: false)
+  end
 end

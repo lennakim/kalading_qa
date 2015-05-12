@@ -1,4 +1,4 @@
-class EngineerQuestionExpiration
+class EngineerRacingExpiration
   include Sidekiq::Worker
   sidekiq_options queue: :"#{Rails.env}_default"
 

@@ -2,6 +2,7 @@ class Question < ActiveRecord::Base
   include AASM
 
   ENGINEER_RACING_DURATION = 1.hour
+  ENGINEER_ANSWERING_DURATION = 20.minutes
   MAX_RACING_COUNT = 8
 
   serialize :images, JSON
@@ -59,6 +60,9 @@ class Question < ActiveRecord::Base
     end
 
     event :answer do
+      before do
+        empty_expire_at
+      end
       transitions from: [:direct_answer, :race, :fallback], to: :answered
     end
 
@@ -79,7 +83,7 @@ class Question < ActiveRecord::Base
   end
 
   def add_engineer_question_expiration_job
-    EngineerQuestionExpiration.perform_in(ENGINEER_RACING_DURATION, id)
+    EngineerRacingExpiration.perform_in(ENGINEER_RACING_DURATION, id)
   end
 
   def any_engineer_raced?
@@ -98,16 +102,23 @@ class Question < ActiveRecord::Base
 
     assignment = question_assignments.build(
       user_internal_id: engineer_id,
-      user_role: 'engineer'
+      user_role: 'engineer',
+      expire_at: Time.current.since(ENGINEER_ANSWERING_DURATION)
     )
     transaction do
       assignment.save!
-      increment(:engineer_race_count)
-      save!(validate: false)
+      increment(:engineer_race_count).save!(validate: false)
     end
+
+    EngineerAnsweringExpiration.perform_in(ENGINEER_ANSWERING_DURATION, assignment.id)
+
     true
   rescue ActiveRecord::RecordInvalid
     logger.warn("Engineer race question failed: #{assignment.errors.full_messages.join(', ')}. question id: #{id}, engineer internal id: #{engineer_id}")
     false
+  end
+
+  def empty_expire_at
+    self.expire_at = nil if race?
   end
 end
