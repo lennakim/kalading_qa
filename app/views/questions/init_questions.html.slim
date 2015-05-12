@@ -9,6 +9,6 @@ table.table.table-striped.table-hover
         td
           - if can? :check, Question
             = link_to '无效问题', nullify_question_path(question), class: 'btn btn-small', method: :put
-            =' link_to '客服', to_dispatcher_question_path(question), class: 'btn btn-small', method: :put
-            =' link_to '技师', to_engineer_question_path(question), class: 'btn btn-small', method: :put
+            => link_to '客服', to_dispatcher_question_path(question), class: 'btn btn-small', method: :put
+            => link_to '技师', to_engineer_question_path(question), class: 'btn btn-small', method: :put
 = paginate @questions

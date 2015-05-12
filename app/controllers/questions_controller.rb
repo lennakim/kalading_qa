@@ -44,7 +44,12 @@ class QuestionsController < ApplicationController
   def to_engineer
     authorize! :check, Question
 
-    # @question
+    if @question.assign_to_engineer!
+      flash[:notice] = '群发给技师成功'
+    else
+      flash[:error] = '群发给技师失败'
+    end
+    redirect_to questions_path(state: 'init')
   end
 
   # 示例，以后不需要了可以删掉

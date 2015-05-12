@@ -1,6 +1,8 @@
 class Question < ActiveRecord::Base
   include AASM
 
+  ENGINEER_RACING_DURATION = 1.hour
+
   serialize :images, JSON
   mount_uploaders :images, ImageUploader
 
@@ -34,14 +36,16 @@ class Question < ActiveRecord::Base
     end
 
     event :assign_to_dispatcher do
-      transitions from: :init, to: :direct_answer do
-        after do |dispatcher_id|
-          create_dispatcher_assignment!(dispatcher_id)
-        end
+      after do |dispatcher_id|
+        create_dispatcher_assignment!(dispatcher_id)
       end
+      transitions from: :init, to: :direct_answer
     end
 
-    event :assign_to_engineer do
+    event :assign_to_engineer, after_commit: :add_engineer_question_expiration_job do
+      before do
+        set_expire_at_for_engineer
+      end
       transitions from: :init, to: :race
     end
 
@@ -63,5 +67,17 @@ class Question < ActiveRecord::Base
       user_internal_id: dispatcher_id,
       user_role: 'dispatcher'
     )
+  end
+
+  def set_expire_at_for_engineer
+    self.expire_at = Time.current.since(ENGINEER_RACING_DURATION)
+  end
+
+  def add_engineer_question_expiration_job
+    EngineerQuestionExpiration.perform_in(ENGINEER_RACING_DURATION, id)
+  end
+
+  def any_engineer_raced?
+    engineer_race_count > 0
   end
 end
