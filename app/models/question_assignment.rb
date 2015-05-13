@@ -5,7 +5,9 @@ class QuestionAssignment < ActiveRecord::Base
   belongs_to :user, foreign_key: 'user_internal_id', primary_key: 'internal_id'
 
   validates :question_id, uniqueness: { scope: :user_internal_id }
-  validates_presence_of :question_id, :user_internal_id, :user_role, :state
+  validates_presence_of :question_id, :user_internal_id, :user_role, :state, :question_state
+
+  before_validation :set_question_state, on: :create
 
   aasm column: 'state' do
     state :processing, initial: true
@@ -33,5 +35,9 @@ class QuestionAssignment < ActiveRecord::Base
 
   def decrement_question_count!
     question.decrement(:engineer_race_count).save!(validate: false)
+  end
+
+  def set_question_state
+    self.question_state = question.state
   end
 end

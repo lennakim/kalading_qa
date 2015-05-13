@@ -7,4 +7,5 @@ table.table.table-striped.table-hover
         td
           = question.auto_submodel.try(:full_name)
         td
-          = link_to '输入答案', '#', class: 'btn btn-small'
+          => link_to '复制', '#', class: 'btn btn-small'
+          => link_to '输入答案', '#', class: 'btn btn-small'

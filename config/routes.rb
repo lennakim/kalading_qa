@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
     collection do
       get :dispatcher_questions, as: :dispatcher
+      get :expert_questions, as: :expert
     end
   end
 end

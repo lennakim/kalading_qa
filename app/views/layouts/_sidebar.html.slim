@@ -8,7 +8,12 @@ ul.nav.nav-stacked
       = link_to '客服处理问题', dispatcher_questions_path
 
     = link_to '已群发技师', questions_path(state: 'race') if can? :read_race, Question
-    = link_to '已分配专家', '#'
+
+    - if can? :read_fallback, Question
+      = link_to '已分配专家', questions_path(state: 'fallback')
+    - else
+      = link_to '已分配专家', expert_questions_path
+
     = link_to '已解答（未采纳）', '#'
     = link_to '已采纳', '#'
     = link_to '知识库', '#'

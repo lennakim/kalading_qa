@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150512071308) do
+ActiveRecord::Schema.define(version: 20150513070048) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20150512071308) do
     t.datetime "updated_at"
     t.datetime "expire_at"
     t.datetime "answered_at"
+    t.string   "question_state",   limit: 255, null: false
   end
 
   add_index "question_assignments", ["question_id", "state"], name: "index_question_assignments_on_question_id_and_state", using: :btree

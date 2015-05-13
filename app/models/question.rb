@@ -56,6 +56,9 @@ class Question < ActiveRecord::Base
     end
 
     event :fall_back_on_expert do
+      after do |fallback_id|
+        create_fallback_assignment!(fallback_id)
+      end
       transitions from: :race, to: :fallback
     end
 
@@ -74,6 +77,13 @@ class Question < ActiveRecord::Base
   def create_dispatcher_assignment!(dispatcher_id)
     question_assignments.create!(
       user_internal_id: dispatcher_id,
+      user_role: 'dispatcher'
+    )
+  end
+
+  def create_fallback_assignment!(fallback_id)
+    question_assignments.create!(
+      user_internal_id: fallback_id,
       user_role: 'dispatcher'
     )
   end

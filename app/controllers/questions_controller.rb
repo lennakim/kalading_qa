@@ -14,7 +14,18 @@ class QuestionsController < ApplicationController
   def dispatcher_questions
     authorize! :direct_answer, Question
 
-    @questions = QuestionAssignment.where(user_internal_id: current_user.internal_id)
+    @questions = QuestionAssignment.where(user_internal_id: current_user.internal_id,
+                                          state: 'processing',
+                                          question_state: 'direct_answer')
+                                   .includes(:question).all.map(&:question)
+  end
+
+  def expert_questions
+    authorize! :fallback_answer, Question
+
+    @questions = QuestionAssignment.where(user_internal_id: current_user.internal_id,
+                                          state: 'processing',
+                                          question_state: 'fallback')
                                    .includes(:question).all.map(&:question)
   end
 

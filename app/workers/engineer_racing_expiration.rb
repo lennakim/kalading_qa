@@ -7,6 +7,7 @@ class EngineerRacingExpiration
     return if question.nil?
     return if question.any_engineer_raced?
 
-    question.fall_back_on_expert!
+    ids = User.dispatchers.pluck(:internal_id)
+    question.fall_back_on_expert!(ids[rand(ids.size)])
   end
 end
