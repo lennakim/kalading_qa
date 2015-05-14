@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150514052500) do
+ActiveRecord::Schema.define(version: 20150514070522) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20150514052500) do
     t.text     "answer_content",            limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "question_images",           limit: 65535
   end
 
   create_table "question_bases_tags", id: false, force: :cascade do |t|

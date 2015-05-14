@@ -18,6 +18,13 @@ zh-CN:
         replier_id: '答题人'
         replier_type: '答题人身份'
         content: '内容'
+      question_base:
+        auto_brand_internal_id: '品牌'
+        auto_model_internal_id: '系列'
+        auto_submodel_internal_id: '型号'
+        question_content: '问题'
+        answer_content: '答案'
+        question_images: '问题图片'
     errors:
       models:
         question_assignment:

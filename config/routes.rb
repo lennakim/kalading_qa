@@ -20,4 +20,6 @@ Rails.application.routes.draw do
       get :expert_questions, as: :expert
     end
   end
+
+  resources :question_bases, only: [:index, :new, :create]
 end

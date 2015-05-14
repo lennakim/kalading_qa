@@ -21,4 +21,14 @@ class Answer < ActiveRecord::Base
     log.warn("Adopting answer failed. Answer id: #{id}")
     false
   end
+
+  def to_question_base
+    QuestionBase.new(
+      auto_brand_internal_id: question.auto_brand_internal_id,
+      auto_model_internal_id: question.auto_model_internal_id,
+      auto_submodel_internal_id: question.auto_submodel_internal_id,
+      question_content: question.content,
+      answer_content: content
+    )
+  end
 end

@@ -1,0 +1,11 @@
+= simple_form_for @question_base, html: { multipart: true, class: 'form-horizontal' } do |f|
+  = f.input :auto_brand_internal_id, collection: AutoBrand.all, label_method: :name, value_method: :internal_id, prompt: nil
+  = f.input :auto_model_internal_id, collection: AutoModel.all, label_method: :name, value_method: :internal_id, prompt: nil
+  = f.input :auto_submodel_internal_id, collection: AutoSubmodel.all, label_method: :name, value_method: :internal_id, prompt: nil
+  = f.input :question_content, input_html: {rows: 8}
+  = f.input :answer_content, input_html: {rows: 8}
+  = f.input :question_images, as: :file, input_html: {multipart: true}
+  .form-group
+    .col-sm-offset-3.col-sm-9
+      => f.button :submit, '保存', class: 'btn btn-primary'
+      = link_to '取消', question_bases_path, class: 'btn btn-default'
