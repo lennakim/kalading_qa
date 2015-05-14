@@ -2,7 +2,10 @@ class QuestionsController < ApplicationController
   load_resource only: [:nullify, :to_dispatcher, :to_engineer]
 
   def index
-    redirect_to dispatcher_questions_path and return if current_user.dispatcher?
+    # 客服没有权限访问root_path，自动跳转到“客服处理问题”页面
+    if request.path == root_path && current_user.dispatcher?
+      redirect_to dispatcher_questions_path and return
+    end
 
     params[:state] ||= 'init'
     authorize! :"read_#{params[:state]}", Question
@@ -14,18 +17,16 @@ class QuestionsController < ApplicationController
   def dispatcher_questions
     authorize! :direct_answer, Question
 
-    @questions = QuestionAssignment.where(user_internal_id: current_user.internal_id,
-                                          state: 'processing',
-                                          question_state: 'direct_answer')
+    @questions = QuestionAssignment.current(current_user.internal_id)
+                                   .where(question_state: 'direct_answer')
                                    .includes(:question).all.map(&:question)
   end
 
   def expert_questions
     authorize! :fallback_answer, Question
 
-    @questions = QuestionAssignment.where(user_internal_id: current_user.internal_id,
-                                          state: 'processing',
-                                          question_state: 'fallback')
+    @questions = QuestionAssignment.current(current_user.internal_id)
+                                   .where(question_state: 'fallback')
                                    .includes(:question).all.map(&:question)
   end
 

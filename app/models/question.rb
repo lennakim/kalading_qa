@@ -62,11 +62,11 @@ class Question < ActiveRecord::Base
       transitions from: :race, to: :fallback
     end
 
-    event :answer do
+    event :process do
       before do
         empty_expire_at
       end
-      transitions from: [:direct_answer, :race, :fallback], to: :answered
+      transitions from: [:direct_answer, :race, :fallback, :answered], to: :answered
     end
 
     event :adopt do
@@ -124,7 +124,35 @@ class Question < ActiveRecord::Base
 
     true
   rescue ActiveRecord::RecordInvalid
-    logger.warn("Engineer race question failed: #{assignment.errors.full_messages.join(', ')}. question id: #{id}, engineer internal id: #{engineer_id}")
+    logger.warn("Racing question failed: #{assignment.errors.full_messages.join(', ')}. Question id: #{id}, engineer internal id: #{engineer_id}.")
+    false
+  end
+
+  def answer(content, replier_id)
+    assignment = question_assignments.available(replier_id).first
+    if assignment.nil?
+      errors.add(:base, '您不能回答此题')
+      return false
+    end
+
+    answer_obj = answers.build(
+      replier_id: replier_id,
+      replier_type: assignment.user_role,
+      content: content
+    )
+    self.process
+    assignment.process
+
+    transaction do
+      answer_obj.save!
+      self.save!
+      assignment.save!
+    end
+
+    true
+  rescue ActiveRecord::RecordInvalid
+    error_message = [answer_obj, self, assignment].map { |obj| obj.errors.full_messages }.flatten.join(', ')
+    logger.warn("Answering question failed: #{error_message}. Question id: #{id}, replier_id: #{replier_id}, replier_type: #{assignment.user_role}.")
     false
   end
 

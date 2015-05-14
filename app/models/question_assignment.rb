@@ -4,10 +4,13 @@ class QuestionAssignment < ActiveRecord::Base
   belongs_to :question
   belongs_to :user, foreign_key: 'user_internal_id', primary_key: 'internal_id'
 
-  validates :question_id, uniqueness: { scope: :user_internal_id }
+  validates :question_id, uniqueness: { scope: :user_internal_id }, on: :create
   validates_presence_of :question_id, :user_internal_id, :user_role, :state, :question_state
 
   before_validation :set_question_state, on: :create
+
+  scope :current, -> (user_internal_id) { where(user_internal_id: user_internal_id, state: 'processing') }
+  scope :available, -> (user_internal_id) { where(user_internal_id: user_internal_id, state: ['processing', 'answered']) }
 
   aasm column: 'state' do
     state :processing, initial: true
@@ -18,7 +21,7 @@ class QuestionAssignment < ActiveRecord::Base
       before do
         empty_expire_at
       end
-      transitions from: :processing, to: :answered
+      transitions from: [:processing, :answered], to: :answered
     end
 
     event :expire do

@@ -13,6 +13,11 @@ zh-CN:
         question_id: '问题'
         user_internal_id: '用户内部id'
         user_role: '用户角色'
+      answer:
+        question_id: '问题'
+        replier_id: '答题人'
+        replier_type: '答题人身份'
+        content: '内容'
     errors:
       models:
         question_assignment:
