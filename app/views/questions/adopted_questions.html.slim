@@ -1,0 +1,11 @@
+table.table.table-striped.table-hover
+  tbody
+    - @questions.each do |question|
+      tr
+        td(title=question.content)
+          = truncate_question_content(question.content)
+        td
+          = question.auto_submodel.try(:full_name)
+        td
+          = link_to '编辑', '#', class: 'btn btn-small'
+= paginate @questions
