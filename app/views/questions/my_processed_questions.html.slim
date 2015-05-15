@@ -1,0 +1,15 @@
+table.table.table-striped.table-hover
+  tbody
+    - @question_assignments.each do |assignment|
+      - question = assignment.question
+      tr
+        td(title=question.content)
+          = truncate_question_content(question.content)
+        td
+          = question.auto_submodel.try(:full_name)
+        td
+          - if assignment.question_state == 'fallback'
+            = link_to '输入答案', new_question_answer_path(question, replier_source: 'expert'), class: 'btn btn-sm btn-primary'
+          - else
+            = link_to '输入答案', new_question_answer_path(question), class: 'btn btn-sm btn-primary'
+= paginate @question_assignments

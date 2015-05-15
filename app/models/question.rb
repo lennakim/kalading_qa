@@ -74,6 +74,10 @@ class Question < ActiveRecord::Base
     end
   end
 
+  def persist_answers
+    answers.select { |answer| answer.persisted? }
+  end
+
   def create_dispatcher_assignment!(dispatcher_id)
     question_assignments.create!(
       user_internal_id: dispatcher_id,
@@ -128,19 +132,20 @@ class Question < ActiveRecord::Base
     false
   end
 
-  def answer(content, replier_id)
-    assignment = question_assignments.available(replier_id).first
+  def answer(answer_attrs, assignee_id = nil)
+    answer_obj = answers.build
+
+    internal_id = assignee_id || answer_attrs[:replier_id]
+    assignment = question_assignments.available(internal_id).first
+
     if assignment.nil?
-      errors.add(:base, '您不能回答此题')
-      return false
+      answer_obj.errors.add(:base, '您不能回答此题')
+      return answer_obj
     end
 
-    answer_obj = answers.build(
-      replier_id: replier_id,
-      replier_type: assignment.user_role,
-      content: content
-    )
-    self.process
+    answer_attrs[:replier_type] ||= assignment.user_role if assignee_id.nil?
+    answer_obj.attributes = answer_attrs
+    self.process if !self.adopted?
     assignment.process
 
     transaction do
@@ -148,12 +153,11 @@ class Question < ActiveRecord::Base
       self.save!
       assignment.save!
     end
-
-    true
   rescue ActiveRecord::RecordInvalid
     error_message = [answer_obj, self, assignment].map { |obj| obj.errors.full_messages }.flatten.join(', ')
     logger.warn("Answering question failed: #{error_message}. Question id: #{id}, replier_id: #{replier_id}, replier_type: #{assignment.user_role}.")
-    false
+  ensure
+    return answer_obj
   end
 
   def empty_expire_at

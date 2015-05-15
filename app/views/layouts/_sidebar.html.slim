@@ -14,6 +14,9 @@ ul.nav.nav-stacked
     - else
       = link_to '已分配专家', expert_questions_path
 
+    - if can? :read, :my_processed_questions
+      = link_to '我处理过的问题', my_processed_questions_path
+
     = link_to '已解答（未采纳）', questions_path(state: 'answered') if can? :read_answered, Question
     = link_to '已采纳', questions_path(state: 'adopted') if can? :read_adopted, Question
     = link_to '知识库', question_bases_path if can? :read, QuestionBase

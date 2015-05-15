@@ -1,0 +1,32 @@
+.row
+  .col-md-8
+    .question
+      .question_content
+        = @question.content
+      .auto_submodel
+        = @question.auto_submodel.try(:full_name)
+      .question_tags
+        - @question.tags.each do |tag|
+          span.label.label-info
+            = tag.name
+
+      hr
+
+      .answers
+        = render partial: 'answer', collection: @question.persist_answers
+
+    = simple_form_for [@question, @answer], wrapper: :vertical_form do |f|
+      = hidden_field_tag :replier_source, params[:replier_source]
+      = f.input :content, label: false, input_html: {rows: 8}
+      .form-horizontal
+        - if @by_expert
+          .form-group
+            = f.label :replier_id, '作者', class: 'control-label col-md-1'
+            .col-md-3
+              = f.input_field :replier_id, collection: User.experts, label_method: :name, value_method: :internal_id,
+                prompt: nil, class: 'form-control'
+              = f.hidden_field :replier_type, value: 'expert'
+            = f.button :submit, '提交', class: 'btn-primary col-md-offset-7'
+        - else
+          .form-group
+            = f.button :submit, '提交', class: 'btn-primary col-md-offset-11'

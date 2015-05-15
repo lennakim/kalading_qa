@@ -30,6 +30,15 @@ class QuestionsController < ApplicationController
                                    .includes(:question).all.map(&:question)
   end
 
+  def my_processed_questions
+    authorize! :read, :my_processed_questions
+
+    @question_assignments = QuestionAssignment.answered(current_user.internal_id)
+                                              .order(updated_at: :desc)
+                                              .includes(:question)
+                                              .page(params[:page])
+  end
+
   def nullify
     authorize! :check, Question
 

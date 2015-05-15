@@ -1,0 +1,17 @@
+.answer
+  .answer_header
+    .replier
+      span.replier_name
+        = link_to answer.replier.name, '#'
+      span.replied_at
+        = l answer.created_at, format: :long
+    .adoption
+      - if answer.adopted?
+        span.label.label-success
+          | 已采纳
+      - else
+        = link_to '采纳', adopt_answer_path(answer), method: :put, data: {confirm: '确定要采纳这个答案吗？'}, class: 'btn btn-default'
+  .answer_content
+    = answer.content
+
+hr

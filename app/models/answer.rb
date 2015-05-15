@@ -6,20 +6,20 @@ class Answer < ActiveRecord::Base
 
   def adopt
     self.adopted_at = Time.current
-    question.adopt
-
-    assignment = question.question_assignments.answered(replier_id).first
-    assignment.adopt
+    question.adopt if !question.adopted?
 
     transaction do
       self.save!
       question.save!
-      assignment.save!
     end
     true
   rescue ActiveRecord::RecordInvalid
     log.warn("Adopting answer failed. Answer id: #{id}")
     false
+  end
+
+  def adopted?
+    adopted_at.present?
   end
 
   def to_question_base

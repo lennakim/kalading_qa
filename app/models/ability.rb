@@ -29,6 +29,7 @@ class Ability
       can :direct_answer, Question
       can :fallback_answer, Question
       can :read, QuestionBase
+      can :read, :my_processed_questions
     end
 
   end

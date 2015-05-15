@@ -15,4 +15,8 @@ class User < ActiveRecord::Base
   def self.dispatchers
     where(role: 'dispatcher').all
   end
+
+  def self.experts
+    where(role: 'expert').all
+  end
 end

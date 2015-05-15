@@ -16,7 +16,6 @@ class QuestionAssignment < ActiveRecord::Base
   aasm column: 'state' do
     state :processing, initial: true
     state :answered
-    state :adopted
     state :expired
 
     event :process do
@@ -31,10 +30,6 @@ class QuestionAssignment < ActiveRecord::Base
         decrement_question_count!
       end
       transitions from: :processing, to: :expired
-    end
-
-    event :adopt do
-      transitions from: :answered, to: :adopted
     end
   end
 

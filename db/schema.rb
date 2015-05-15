@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150514070522) do
+ActiveRecord::Schema.define(version: 20150515135914) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20150514070522) do
 
   add_index "question_assignments", ["question_id", "state"], name: "index_question_assignments_on_question_id_and_state", using: :btree
   add_index "question_assignments", ["state", "expire_at"], name: "index_question_assignments_on_state_and_expire_at", using: :btree
-  add_index "question_assignments", ["user_internal_id", "state"], name: "index_question_assignments_on_user_internal_id_and_state", using: :btree
+  add_index "question_assignments", ["user_internal_id", "state", "updated_at"], name: "idx_q_assignments_on_internal_id_and_state_and_updated_at", using: :btree
 
   create_table "question_bases", force: :cascade do |t|
     t.string   "auto_brand_internal_id",    limit: 255

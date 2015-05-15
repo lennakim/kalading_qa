@@ -18,6 +18,15 @@ Rails.application.routes.draw do
     collection do
       get :dispatcher_questions, as: :dispatcher
       get :expert_questions, as: :expert
+      get :my_processed_questions, as: :my_processed
+    end
+
+    resources :answers, only: [:new, :create]
+  end
+
+  resources :answers, only: [] do
+    member do
+      put :adopt
     end
   end
 
