@@ -40,6 +40,7 @@ gem 'aasm'
 gem 'settingslogic'
 gem 'cancan'
 gem 'rest-client'
+gem 'acts-as-taggable-on', '~> 3.4'
 
 group :development, :test do
   gem 'thin'

@@ -6,9 +6,9 @@
       .auto_submodel
         = @question.auto_submodel.try(:full_name)
       .question_tags
-        - @question.tags.each do |tag|
+        - @question.tag_list.each do |tag|
           span.label.label-info
-            = tag.name
+            = tag
 
       hr
 

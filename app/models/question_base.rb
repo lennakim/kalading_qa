@@ -2,7 +2,8 @@ class QuestionBase < ActiveRecord::Base
   serialize :question_images, JSON
   mount_uploaders :question_images, ImageUploader
 
-  has_and_belongs_to_many :tags
+  acts_as_taggable
+
   belongs_to :auto_brand, foreign_key: 'auto_brand_internal_id', primary_key: 'internal_id'
   belongs_to :auto_model, foreign_key: 'auto_model_internal_id', primary_key: 'internal_id'
   belongs_to :auto_submodel, foreign_key: 'auto_submodel_internal_id', primary_key: 'internal_id'

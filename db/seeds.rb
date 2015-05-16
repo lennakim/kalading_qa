@@ -1,7 +1,3 @@
-%w[保养 维修 发动机 保险 其他].each do |tag_name|
-  Tag.find_or_create_by(name: tag_name)
-end
-
 # 创建总裁登录帐号
 if !User.where(phone_num: '18655550002').exists?
   User.create!(
