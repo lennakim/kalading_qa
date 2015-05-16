@@ -5,7 +5,7 @@
 
   .auto_submodel {
     margin-bottom: 10px;
-    color: gray;
+    color: #999;
   }
 
   .question_tags {
@@ -23,7 +23,7 @@
           display: block;
         }
         .replied_at {
-          color: gray;
+          color: #999;
         }
       }
 
@@ -39,5 +39,16 @@
         }
       }
     }
+  }
+}
+
+table.questions {
+  td.content {
+    padding-top: 13px;
+  }
+
+  td.auto_submodel {
+    padding-top: 13px;
+    color: #999;
   }
 }
