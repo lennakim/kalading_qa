@@ -27,7 +27,7 @@ if !User.where(phone_num: '18655550011').exists?
   User.create!(
     phone_num: '18655550011',
     password: '1'*6,
-    role: 'dispatcher_manager',
+    role: 'support_manager',
     name: '客服主管',
     name_pinyin: 'kefuzhuguan',
     internal_id: 'internal_0011_0'
@@ -69,7 +69,7 @@ end
   if !User.where(phone_num: phone_num).exists?
     User.create!(
       phone_num: phone_num,
-      role: 'expert',
+      role: 'specialist',
       name: "专家#{i}",
       internal_id: "internal_0012_#{i}"
     )

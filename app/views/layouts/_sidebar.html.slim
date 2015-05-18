@@ -12,7 +12,7 @@ ul.nav.nav-stacked
     - if can? :read_fallback, Question
       = link_to '已分配专家', questions_path(state: 'fallback')
     - else
-      = link_to '已分配专家', expert_questions_path
+      = link_to '已分配专家', specialist_questions_path
 
     - if can? :read, :my_processed_questions
       = link_to '我处理过的问题', my_processed_questions_path

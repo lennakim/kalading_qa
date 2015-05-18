@@ -13,7 +13,7 @@ class Ability
     end
 
     # 客服主管
-    if user.dispatcher_manager?
+    if user.support_manager?
       can [:read_init, :check], Question
       can :read_direct_answer, Question
       can :read_race, Question

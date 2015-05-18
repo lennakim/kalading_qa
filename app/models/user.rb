@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   validates :phone_num, presence: true, uniqueness: true
   validates_presence_of :role, :internal_id
 
-  ROLES = %w[dispatcher dispatcher_manager manager engineer expert]
+  ROLES = %w[dispatcher support_manager manager engineer specialist]
 
   ROLES.each do |role|
     define_method "#{role}?" do
@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
     where(role: 'dispatcher').all
   end
 
-  def self.experts
-    where(role: 'expert').all
+  def self.specialists
+    where(role: 'specialist').all
   end
 end

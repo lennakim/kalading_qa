@@ -56,7 +56,7 @@ class Question < ActiveRecord::Base
       transitions from: :init, to: :race
     end
 
-    event :fall_back_on_expert do
+    event :fall_back_on_specialist do
       after do |fallback_id|
         create_fallback_assignment!(fallback_id)
       end

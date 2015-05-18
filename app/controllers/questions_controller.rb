@@ -22,7 +22,7 @@ class QuestionsController < ApplicationController
                                    .includes(:question).all.map(&:question)
   end
 
-  def expert_questions
+  def specialist_questions
     authorize! :fallback_answer, Question
 
     @questions = QuestionAssignment.current(current_user.internal_id)

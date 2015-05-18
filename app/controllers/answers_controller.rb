@@ -9,7 +9,7 @@ class AnswersController < ApplicationController
 
   def create
     answer_attrs = answer_params
-    if @by_expert
+    if @by_specialist
       assignee_id = current_user.internal_id
     else
       answer_attrs[:replier_id] = current_user.internal_id
@@ -44,7 +44,7 @@ class AnswersController < ApplicationController
   end
 
   def check_replier_type
-    @by_expert = params[:replier_source] == 'expert'
+    @by_specialist = params[:replier_source] == 'specialist'
   end
 
   def answer_params
