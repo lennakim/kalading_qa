@@ -6,7 +6,10 @@ development:
   # 登录时不调用后台API，而是使用本地数据
   # 仅development环境有用
   use_local_data: true
-  kalading_management_api_uri: "http://121.42.155.108:81"
+  kalading_management_api:
+    uri: "http://121.42.155.108:81"
+    user: '18612621540'
+    pwd: '123456'
   mailer:
     smtp:
       address: ''
@@ -29,10 +32,33 @@ test:
 
 staging:
   <<: *defaults
+  kalading_management_api:
+    uri: "http://121.42.155.108:81"
+    user: '18612621540'
+    pwd: '123456'
+  mailer:
+    smtp:
+      address: ''
+      port: 25
+      domain: ''
+      user_name: ''
+      password: ''
+  exception_notification:
+    recipients:
+      - ''
+  pic_storage: 'qiniu'
+  qiniu:
+    access_key: ''
+    secret_key: ''
+    bucket: ''
+    bucket_domain: ''
 
 production:
   <<: *defaults
-  kalading_management_api_uri: ""
+  kalading_management_api:
+    uri: ''
+    user: ''
+    pwd: ''
   mailer:
     smtp:
       address: ''

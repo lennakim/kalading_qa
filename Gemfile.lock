@@ -354,6 +354,7 @@ DEPENDENCIES
   carrierwave!
   carrierwave-qiniu
   coffee-rails (~> 4.0.0)
+  colorize
   devise (~> 3.4.0)
   exception_notification (~> 4.0.1)
   factory_girl_rails
