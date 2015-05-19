@@ -77,7 +77,7 @@ gem 'grape'
 gem 'grape-entity'
 gem 'grape-jbuilder'
 gem 'swagger-ui_rails'
-# gem 'grape-swagger-rails'
+gem 'grape-swagger-rails'
 gem 'rack-cors'
 
 
