@@ -1,6 +1,9 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  get 'doc/v2'
+  mount Base => '/api' #api
+
   root 'questions#index'
 
   # TODO: 应该只允许admin访问
