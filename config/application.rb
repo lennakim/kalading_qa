@@ -32,5 +32,13 @@ module KaladingQa
     config.active_job.queue_name_prefix = Rails.env
 
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+
+    config.middleware.use(Rack::Config) do |env| # 支持 grape-jbuilder
+      env['api.tilt.root'] = Rails.root.join 'app', 'api'
+    end
+
   end
 end
