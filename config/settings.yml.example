@@ -10,6 +10,8 @@ development:
     uri: "http://121.42.155.108:81"
     user: '18612621540'
     pwd: '123456'
+    timeout: 20
+    max_page: 50
   mailer:
     smtp:
       address: ''
@@ -36,6 +38,8 @@ staging:
     uri: "http://121.42.155.108:81"
     user: '18612621540'
     pwd: '123456'
+    timeout: 20
+    max_page: 50
   mailer:
     smtp:
       address: ''
@@ -59,6 +63,8 @@ production:
     uri: ''
     user: ''
     pwd: ''
+    timeout: 20
+    max_page: 50
   mailer:
     smtp:
       address: ''

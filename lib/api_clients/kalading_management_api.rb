@@ -8,7 +8,7 @@ module KaladingManagementApi
 
     log_message = "Calling the API [#{method.to_s.capitalize}]#{url} with parameters #{params.except(:password, :auth_token)}"
 
-    response = Timeout::timeout(10) {
+    response = Timeout::timeout(Settings.kalading_management_api.timeout) {
       method.to_s == 'get' ?
         RestClient.get(url, params: params, content_type: :json, accept: :json) :
         RestClient.send(method, url, params, content_type: :json, accept: :json)

@@ -6,12 +6,7 @@ class UserToken < ActiveRecord::Base
 
       user_token = where(name: name).first || new(name: name)
       user_token.token = token
-
-      if user_token.token_changed?
-        user_token.save
-      else
-        true
-      end
+      user_token.save
     end
 
     def get_token
