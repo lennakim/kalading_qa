@@ -4,8 +4,7 @@ defaults: &defaults
 development:
   <<: *defaults
   # 登录时不调用后台API，而是使用本地数据
-  # 仅development环境有用
-  use_local_data: true
+  use_local_data_to_sign_in: false
   kalading_management_api:
     uri: "http://121.42.155.108:81"
     user: '18612621540'
@@ -34,6 +33,7 @@ test:
 
 staging:
   <<: *defaults
+  use_local_data_to_sign_in: false
   kalading_management_api:
     uri: "http://121.42.155.108:81"
     user: '18612621540'
@@ -59,6 +59,7 @@ staging:
 
 production:
   <<: *defaults
+  use_local_data_to_sign_in: false
   kalading_management_api:
     uri: ''
     user: ''

@@ -4,7 +4,7 @@ class UserToken < ActiveRecord::Base
       name = Settings.kalading_management_api.user
       token = get_token_from_api
 
-      user_token = where(name: name).first || new(name: name)
+      user_token = find_or_initialize_by(name: name)
       user_token.token = token
       user_token.save
     end

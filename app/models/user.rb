@@ -19,4 +19,10 @@ class User < ActiveRecord::Base
   def self.specialists
     where(role: 'specialist').all
   end
+
+  def self.valid_role?(role_str)
+    role_str.split(',').any? do |r|
+      ROLES.include?(r)
+    end
+  end
 end

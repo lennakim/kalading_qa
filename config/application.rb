@@ -32,5 +32,7 @@ module KaladingQa
     config.active_job.queue_name_prefix = Rails.env
 
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.active_support.test_order = :random
   end
 end

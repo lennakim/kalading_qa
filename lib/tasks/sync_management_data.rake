@@ -74,8 +74,6 @@ def sync_auto_data
       auto_model_attrs['asms'].each do |auto_submodel_attrs|
         auto_submodel_attrs['auto_brand_internal_id'] = auto_brand_attrs['_id']
         auto_submodel_attrs['auto_model_internal_id'] = auto_model_attrs['_id']
-        # TODO: remove it
-        auto_submodel_attrs['full_name'] = auto_submodel_attrs['name']
         sync_auto_data_with_message(auto_submodel_attrs) do
           AutoSubmodel.sync(auto_submodel_attrs['_id'], auto_submodel_attrs)
         end
@@ -88,6 +86,7 @@ def sync_auto_data_with_message(attrs)
   model = yield
   if !model.errors.blank?
     puts "Sync #{model.model_name} data failed. " \
+         "Internal ID: #{attrs['_id']}. " \
          "Errors: #{model.errors.full_messages.join(', ')}. " \
          "Attributes: #{model.class.extract_sync_attributes(attrs)}".colorize(:red)
   end

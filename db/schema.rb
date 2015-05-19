@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150519034631) do
+ActiveRecord::Schema.define(version: 20150519061616) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 20150519034631) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "internal_id",         limit: 255,              null: false
+    t.string   "city_internal_id",    limit: 255
   end
 
   add_index "users", ["internal_id"], name: "index_users_on_internal_id", using: :btree
