@@ -133,6 +133,14 @@ class Question < ActiveRecord::Base
     false
   end
 
+  # answer_attrs: {
+  #   replier_id: 'xxx',
+  #   replier_type: 'engineer',
+  #   content: 'bababa'
+  # }
+  #
+  # 如果是回答自己的问题，比如技师回答问题。则assignee_id必须为空，replier_type可以为空，系统会自动判断
+  # 如果是代别人回答问题，比如客服代专家回答问题。则assignee_id是客服的internal_id
   def answer(answer_attrs, assignee_id = nil)
     answer_obj = answers.build
 
