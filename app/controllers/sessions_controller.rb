@@ -22,9 +22,12 @@ class SessionsController < Devise::SessionsController
       end
 
       update_user(phone_num, password, result)
+      super
+    else
+      self.resource = User.new(phone_num: phone_num)
+      flash[:error] = '帐号或密码错误'
+      render action: 'new'
     end
-
-    super
   end
 
   private
