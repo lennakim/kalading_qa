@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520025614) do
+ActiveRecord::Schema.define(version: 20150520140523) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20150520025614) do
   create_table "question_assignments", force: :cascade do |t|
     t.integer  "question_id",      limit: 4,   null: false
     t.string   "user_internal_id", limit: 255, null: false
-    t.string   "user_role",        limit: 255, null: false
+    t.string   "handler",          limit: 255, null: false
     t.string   "state",            limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -99,11 +99,14 @@ ActiveRecord::Schema.define(version: 20150520025614) do
     t.text     "images",                    limit: 65535
     t.datetime "expire_at"
     t.integer  "engineer_race_count",       limit: 4,     default: 0
+    t.boolean  "can_be_raced",              limit: 1
+    t.integer  "answers_count",             limit: 4,     default: 0
+    t.string   "handler",                   limit: 255
   end
 
+  add_index "questions", ["can_be_raced"], name: "index_questions_on_can_be_raced", using: :btree
   add_index "questions", ["customer_id"], name: "index_questions_on_customer_id", using: :btree
   add_index "questions", ["state", "created_at"], name: "index_questions_on_state_and_created_at", using: :btree
-  add_index "questions", ["state", "expire_at"], name: "index_questions_on_state_and_expire_at", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string "name", limit: 255, null: false

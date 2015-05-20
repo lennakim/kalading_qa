@@ -1,5 +1,5 @@
 class Answer < ActiveRecord::Base
-  belongs_to :question
+  belongs_to :question, counter_cache: true
   belongs_to :replier, class_name: 'User', primary_key: 'internal_id'
 
   validates_presence_of :question_id, :replier_id, :replier_type, :content

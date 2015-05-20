@@ -12,7 +12,7 @@ zh-CN:
       question_assignment:
         question_id: '问题'
         user_internal_id: '用户内部id'
-        user_role: '用户角色'
+        handler: '问题处理人'
       answer:
         question_id: '问题'
         replier_id: '答题人'

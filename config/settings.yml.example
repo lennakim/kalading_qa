@@ -6,11 +6,15 @@ development:
   # 登录时不调用后台API，而是使用本地数据
   use_local_data_to_sign_in: false
   kalading_management_api:
-    uri: "http://115.28.132.220:81"
-    user: '18655559006'
+    uri: "http://t.kalading.com:81"
+    user: '18655551001'
     pwd: '111111'
     timeout: 20
     max_page: 50
+  question:
+    engineer_race_duration: <%= 1.hour %>
+    engineer_answering_duration: <%= 20.minutes %>
+    race_limit: 8
   mailer:
     smtp:
       address: ''
@@ -35,11 +39,15 @@ staging:
   <<: *defaults
   use_local_data_to_sign_in: false
   kalading_management_api:
-    uri: "http://115.28.132.220:81"
-    user: '18655559006'
+    uri: "http://t.kalading.com:81"
+    user: '18655551001'
     pwd: '111111'
     timeout: 20
     max_page: 50
+  question:
+    engineer_race_duration: <%= 1.hour %>
+    engineer_answering_duration: <%= 20.minutes %>
+    race_limit: 8
   mailer:
     smtp:
       address: ''
@@ -66,6 +74,10 @@ production:
     pwd: ''
     timeout: 20
     max_page: 50
+  question:
+    engineer_race_duration: <%= 1.hour %>
+    engineer_answering_duration: <%= 20.minutes %>
+    race_limit: 8
   mailer:
     smtp:
       address: ''
