@@ -47,10 +47,12 @@ end
 
 def update_user_data(attrs, role)
   user = User.where(internal_id: attrs['id']).first ||
-         User.new(internal_id: attrs['id'], role: role, phone_num: attrs['phone_num'])
+         User.new(internal_id: attrs['id'], phone_num: attrs['phone_num'])
   user.name = attrs['name']
 
-  if !user.save
+  if user.save
+    user.assign_roles(role)
+  else
     puts "Sync #{role} data failed. " \
          "Errors: #{user.errors.full_messages.join(', ')}. " \
          "Attributes: #{attrs}".colorize(:red)

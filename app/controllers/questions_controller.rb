@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
 
   def index
     # 客服没有权限访问root_path，自动跳转到“客服处理问题”页面
-    if request.path == root_path && current_user.dispatcher?
+    if request.path == root_path && !can?(:read_init, Question)
       redirect_to dispatcher_questions_path and return
     end
 

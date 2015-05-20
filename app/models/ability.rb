@@ -5,7 +5,7 @@ class Ability
     user ||= User.new
 
     # 总裁
-    if user.manager?
+    if user.has_role?('manager')
       can :read, :all
       can [:read_init, :read_direct_answer, :read_race, :read_fallback,
            :read_answered, :read_adopted, :read_useless], Question
@@ -13,7 +13,7 @@ class Ability
     end
 
     # 客服主管
-    if user.support_manager?
+    if user.has_role?('support_manager')
       can [:read_init, :check], Question
       can :read_direct_answer, Question
       can :read_race, Question
@@ -25,7 +25,7 @@ class Ability
     end
 
     # 客服
-    if user.dispatcher?
+    if user.has_role?('dispatcher')
       can :direct_answer, Question
       can :fallback_answer, Question
       can :read, QuestionBase

@@ -6,9 +6,9 @@ development:
   # 登录时不调用后台API，而是使用本地数据
   use_local_data_to_sign_in: false
   kalading_management_api:
-    uri: "http://121.42.155.108:81"
-    user: '18612621540'
-    pwd: '123456'
+    uri: "http://115.28.132.220:81"
+    user: '18655559006'
+    pwd: '111111'
     timeout: 20
     max_page: 50
   mailer:
@@ -35,9 +35,9 @@ staging:
   <<: *defaults
   use_local_data_to_sign_in: false
   kalading_management_api:
-    uri: "http://121.42.155.108:81"
-    user: '18612621540'
-    pwd: '123456'
+    uri: "http://115.28.132.220:81"
+    user: '18655559006'
+    pwd: '111111'
     timeout: 20
     max_page: 50
   mailer:

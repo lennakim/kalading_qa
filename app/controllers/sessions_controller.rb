@@ -12,8 +12,10 @@ class SessionsController < Devise::SessionsController
 
     # API 登录成功
     if result['result'].downcase == 'ok'
+      result['roles'] = result['role_str'].split(',')
+
       # 不是所有的后台帐号都能登录问答系统
-      if !User.valid_role?(result['role_str'])
+      if !Role.valid_role?(result['roles'])
         self.resource = User.new(phone_num: phone_num)
         flash[:error] = '角色不正确，不能登录'
         render action: 'new' and return
@@ -34,12 +36,14 @@ class SessionsController < Devise::SessionsController
 
     user.attributes = {
       phone_num: phone_num,
-      role: result['role_str'].split(',').first,
       name: result['name'],
       name_pinyin: result['name_pinyin'],
       city_internal_id: result['city_id']
     }
-    if !user.save
+
+    if user.save
+      user.assign_roles(result['roles'])
+    else
       Rails.logger.error("Updating user data failed while sign in. " \
                          "Errors: #{user.errors.full_messages.join(', ')}. " \
                          "API Response: #{result}.".colorize(:red))

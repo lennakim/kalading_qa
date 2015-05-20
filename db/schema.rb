@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150519061616) do
+ActiveRecord::Schema.define(version: 20150520025614) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -105,6 +105,10 @@ ActiveRecord::Schema.define(version: 20150519061616) do
   add_index "questions", ["state", "created_at"], name: "index_questions_on_state_and_created_at", using: :btree
   add_index "questions", ["state", "expire_at"], name: "index_questions_on_state_and_expire_at", using: :btree
 
+  create_table "roles", force: :cascade do |t|
+    t.string "name", limit: 255, null: false
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",        limit: 4
     t.integer  "taggable_id",   limit: 4
@@ -125,6 +129,16 @@ ActiveRecord::Schema.define(version: 20150519061616) do
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
+  create_table "user_roles", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4, null: false
+    t.integer  "role_id",    limit: 4, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_roles", ["role_id"], name: "index_user_roles_on_role_id", using: :btree
+  add_index "user_roles", ["user_id"], name: "index_user_roles_on_user_id", using: :btree
+
   create_table "user_tokens", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.string   "token",      limit: 255
@@ -143,7 +157,6 @@ ActiveRecord::Schema.define(version: 20150519061616) do
     t.string   "last_sign_in_ip",     limit: 255
     t.integer  "failed_attempts",     limit: 4,   default: 0,  null: false
     t.datetime "locked_at"
-    t.string   "role",                limit: 255,              null: false
     t.string   "name",                limit: 255
     t.string   "name_pinyin",         limit: 255, default: ""
     t.datetime "created_at"
@@ -154,6 +167,5 @@ ActiveRecord::Schema.define(version: 20150519061616) do
 
   add_index "users", ["internal_id"], name: "index_users_on_internal_id", using: :btree
   add_index "users", ["phone_num"], name: "index_users_on_phone_num", unique: true, using: :btree
-  add_index "users", ["role"], name: "index_users_on_role", using: :btree
 
 end
