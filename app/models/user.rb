@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   end
 
   def role_list
-    roles.pluck(:name)
+    @role_list ||= roles.pluck(:name)
   end
 
   def assign_roles(*role_names)
@@ -24,6 +24,6 @@ class User < ActiveRecord::Base
   end
 
   def has_role?(role_name)
-    roles.where(name: role_name).exists?
+    role_list.include?(role_name.to_s)
   end
 end
