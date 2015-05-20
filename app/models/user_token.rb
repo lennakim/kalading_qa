@@ -1,9 +1,10 @@
 class UserToken < ActiveRecord::Base
   class << self
     def update_token
-      name = Settings.kalading_management_api.user
       token = get_token_from_api
+      return if token.blank?
 
+      name = Settings.kalading_management_api.user
       user_token = find_or_initialize_by(name: name)
       user_token.token = token
       user_token.save
@@ -12,13 +13,7 @@ class UserToken < ActiveRecord::Base
     def get_token
       name = Settings.kalading_management_api.user
       user_token = where(name: name).first
-
-      if user_token.blank?
-        update_token
-        user_token = where(name: name).first
-      end
-
-      user_token.token
+      user_token.token if user_token
     end
 
     def get_token_from_api
@@ -26,7 +21,13 @@ class UserToken < ActiveRecord::Base
       pwd = Settings.kalading_management_api.pwd
 
       result = KaladingManagementApi.call('post', 'users/sign_in', {phone_num: name, password: pwd})
-      result['authentication_token']
+      token = result['authentication_token']
+
+      if token.blank?
+        Rails.logger.error("Cannot get token.")
+      end
+
+      token
     end
   end
 end

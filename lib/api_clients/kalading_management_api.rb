@@ -3,7 +3,7 @@ module KaladingManagementApi
 
   def call(method, api_name, params = {})
     raise "Please fill out kalading_management_api in config/settings.yml" if Settings.kalading_management_api.blank?
-    params.merge!(auth_token: UserToken.get_token) if UserToken.exists?
+    params.merge!(auth_token: UserToken.get_token)
     url = URI.join("#{Settings.kalading_management_api.uri}/#{api_name}/", params.delete(:id).to_s).to_s.chomp('/') + '.json'
 
     log_message = "Calling the API [#{method.to_s.capitalize}]#{url} with parameters #{params.except(:password, :auth_token)}"
