@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150516014441) do
+ActiveRecord::Schema.define(version: 20150520140523) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -36,32 +36,34 @@ ActiveRecord::Schema.define(version: 20150516014441) do
   add_index "auto_brands", ["internal_id"], name: "index_auto_brands_on_internal_id", using: :btree
 
   create_table "auto_models", force: :cascade do |t|
-    t.string   "name",          limit: 255, null: false
-    t.string   "internal_id",   limit: 255, null: false
-    t.integer  "auto_brand_id", limit: 4,   null: false
+    t.string   "name",                   limit: 255, null: false
+    t.string   "internal_id",            limit: 255, null: false
+    t.string   "auto_brand_internal_id", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "auto_models", ["auto_brand_id"], name: "index_auto_models_on_auto_brand_id", using: :btree
+  add_index "auto_models", ["auto_brand_internal_id"], name: "index_auto_models_on_auto_brand_internal_id", using: :btree
   add_index "auto_models", ["internal_id"], name: "index_auto_models_on_internal_id", using: :btree
 
   create_table "auto_submodels", force: :cascade do |t|
-    t.string   "name",          limit: 255, null: false
-    t.string   "full_name",     limit: 255, null: false
-    t.string   "internal_id",   limit: 255, null: false
-    t.integer  "auto_model_id", limit: 4,   null: false
+    t.string   "name",                   limit: 255, null: false
+    t.string   "full_name",              limit: 255, null: false
+    t.string   "internal_id",            limit: 255, null: false
+    t.string   "auto_model_internal_id", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "auto_brand_internal_id", limit: 255, null: false
   end
 
-  add_index "auto_submodels", ["auto_model_id"], name: "index_auto_submodels_on_auto_model_id", using: :btree
+  add_index "auto_submodels", ["auto_brand_internal_id"], name: "index_auto_submodels_on_auto_brand_internal_id", using: :btree
+  add_index "auto_submodels", ["auto_model_internal_id"], name: "index_auto_submodels_on_auto_model_internal_id", using: :btree
   add_index "auto_submodels", ["internal_id"], name: "index_auto_submodels_on_internal_id", using: :btree
 
   create_table "question_assignments", force: :cascade do |t|
     t.integer  "question_id",      limit: 4,   null: false
     t.string   "user_internal_id", limit: 255, null: false
-    t.string   "user_role",        limit: 255, null: false
+    t.string   "handler",          limit: 255, null: false
     t.string   "state",            limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -97,11 +99,18 @@ ActiveRecord::Schema.define(version: 20150516014441) do
     t.text     "images",                    limit: 65535
     t.datetime "expire_at"
     t.integer  "engineer_race_count",       limit: 4,     default: 0
+    t.boolean  "can_be_raced",              limit: 1
+    t.integer  "answers_count",             limit: 4,     default: 0
+    t.string   "handler",                   limit: 255
   end
 
+  add_index "questions", ["can_be_raced"], name: "index_questions_on_can_be_raced", using: :btree
   add_index "questions", ["customer_id"], name: "index_questions_on_customer_id", using: :btree
   add_index "questions", ["state", "created_at"], name: "index_questions_on_state_and_created_at", using: :btree
-  add_index "questions", ["state", "expire_at"], name: "index_questions_on_state_and_expire_at", using: :btree
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name", limit: 255, null: false
+  end
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",        limit: 4
@@ -123,6 +132,23 @@ ActiveRecord::Schema.define(version: 20150516014441) do
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
+  create_table "user_roles", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4, null: false
+    t.integer  "role_id",    limit: 4, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_roles", ["role_id"], name: "index_user_roles_on_role_id", using: :btree
+  add_index "user_roles", ["user_id"], name: "index_user_roles_on_user_id", using: :btree
+
+  create_table "user_tokens", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "token",      limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "phone_num",           limit: 255, default: "", null: false
     t.string   "encrypted_password",  limit: 255, default: "", null: false
@@ -134,16 +160,15 @@ ActiveRecord::Schema.define(version: 20150516014441) do
     t.string   "last_sign_in_ip",     limit: 255
     t.integer  "failed_attempts",     limit: 4,   default: 0,  null: false
     t.datetime "locked_at"
-    t.string   "role",                limit: 255,              null: false
     t.string   "name",                limit: 255
     t.string   "name_pinyin",         limit: 255, default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "internal_id",         limit: 255,              null: false
+    t.string   "city_internal_id",    limit: 255
   end
 
   add_index "users", ["internal_id"], name: "index_users_on_internal_id", using: :btree
   add_index "users", ["phone_num"], name: "index_users_on_phone_num", unique: true, using: :btree
-  add_index "users", ["role"], name: "index_users_on_role", using: :btree
 
 end

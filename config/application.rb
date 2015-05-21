@@ -40,5 +40,6 @@ module KaladingQa
       env['api.tilt.root'] = Rails.root.join 'app', 'api'
     end
 
+    config.active_support.test_order = :random
   end
 end

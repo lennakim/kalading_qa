@@ -1,10 +1,6 @@
 class Question < ActiveRecord::Base
   include AASM
 
-  ENGINEER_RACING_DURATION = 1.hour
-  ENGINEER_ANSWERING_DURATION = 20.minutes
-  MAX_RACING_COUNT = 8
-
   serialize :images, JSON
   mount_uploaders :images, ImageUploader
 
@@ -20,7 +16,7 @@ class Question < ActiveRecord::Base
   validates :engineer_race_count, numericality: { only_integer: true,
                                                   allow_nil: true,
                                                   greater_than_or_equal_to: 0,
-                                                  less_than_or_equal_to: MAX_RACING_COUNT }
+                                                  less_than_or_equal_to: Settings.question.race_limit }
   validates_presence_of :auto_submodel_internal_id, :customer_id, :content, :state
 
   aasm column: 'state' do
@@ -43,6 +39,9 @@ class Question < ActiveRecord::Base
     end
 
     event :assign_to_dispatcher do
+      before do
+        self.handler = 'dispatcher'
+      end
       after do |dispatcher_id|
         create_dispatcher_assignment!(dispatcher_id)
       end
@@ -51,12 +50,16 @@ class Question < ActiveRecord::Base
 
     event :assign_to_engineer, after_commit: :add_engineer_question_expiration_job do
       before do
+        self.handler = 'engineer'
         set_expire_at_for_engineer
       end
       transitions from: :init, to: :race
     end
 
     event :fall_back_on_specialist do
+      before do
+        self.handler = 'dispatcher'
+      end
       after do |fallback_id|
         create_fallback_assignment!(fallback_id)
       end
@@ -82,50 +85,67 @@ class Question < ActiveRecord::Base
   def create_dispatcher_assignment!(dispatcher_id)
     question_assignments.create!(
       user_internal_id: dispatcher_id,
-      user_role: 'dispatcher'
+      handler: 'dispatcher'
     )
   end
 
   def create_fallback_assignment!(fallback_id)
     question_assignments.create!(
       user_internal_id: fallback_id,
-      user_role: 'dispatcher'
+      handler: 'dispatcher'
     )
   end
 
   def set_expire_at_for_engineer
-    self.expire_at = Time.current.since(ENGINEER_RACING_DURATION)
+    self.expire_at = Time.current.since(Settings.question.engineer_race_duration)
   end
 
   def add_engineer_question_expiration_job
-    EngineerRacingExpiration.perform_in(ENGINEER_RACING_DURATION, id)
+    EngineerRacingExpiration.perform_in(Settings.question.engineer_race_duration, id)
+  end
+
+  def anyone_answered?
+    answers_count > 0
   end
 
   def any_engineer_raced?
     engineer_race_count > 0
   end
 
-  def can_be_raced?
-    engineer_race_count <= MAX_RACING_COUNT
+  def reach_race_limit?
+    engineer_race_count >= Settings.question.race_limit
+  end
+
+  def check_for_race(engineer_id)
+    if question_assignments.available(engineer_id).exists?
+      errors.add(:base, '您已经抢答过此题')
+    elsif reach_race_limit?
+      errors.add(:base, '抢答人数已满')
+    elsif fallback?
+      errors.add(:base, '已交给专家来回答')
+    elsif !can_be_raced?
+      errors.add(:base, '您不能回答此题')
+    end
+
+    errors.blank?
   end
 
   def race_by_engineer(engineer_id)
-    if !can_be_raced?
-      errors.add(:base, '已被其他技师抢到，您不能再抢答此题')
-      return false
-    end
+    return false if !check_for_race(engineer_id)
 
     assignment = question_assignments.build(
       user_internal_id: engineer_id,
-      user_role: 'engineer',
-      expire_at: Time.current.since(ENGINEER_ANSWERING_DURATION)
+      handler: 'engineer',
+      expire_at: Time.current.since(Settings.question.engineer_answering_duration)
     )
+    increase_race_count
+
     transaction do
       assignment.save!
-      increment(:engineer_race_count).save!(validate: false)
+      self.save!
     end
 
-    EngineerAnsweringExpiration.perform_in(ENGINEER_ANSWERING_DURATION, assignment.id)
+    EngineerAnsweringExpiration.perform_in(Settings.question.engineer_answering_duration, assignment.id)
 
     true
   rescue ActiveRecord::RecordInvalid
@@ -133,6 +153,14 @@ class Question < ActiveRecord::Base
     false
   end
 
+  # answer_attrs: {
+  #   replier_id: 'xxx',
+  #   replier_type: 'engineer',
+  #   content: 'bababa'
+  # }
+  #
+  # 如果是回答自己的问题，比如技师回答问题。则assignee_id必须为空，replier_type可以为空，系统会自动判断
+  # 如果是代别人回答问题，比如客服代专家回答问题。则assignee_id是客服的internal_id
   def answer(answer_attrs, assignee_id = nil)
     answer_obj = answers.build
 
@@ -144,7 +172,7 @@ class Question < ActiveRecord::Base
       return answer_obj
     end
 
-    answer_attrs[:replier_type] ||= assignment.user_role if assignee_id.nil?
+    answer_attrs[:replier_type] ||= assignment.handler if assignee_id.nil?
     answer_obj.attributes = answer_attrs
     self.process if !self.adopted?
     assignment.process
@@ -156,12 +184,30 @@ class Question < ActiveRecord::Base
     end
   rescue ActiveRecord::RecordInvalid
     error_message = [answer_obj, self, assignment].map { |obj| obj.errors.full_messages }.flatten.join(', ')
-    logger.warn("Answering question failed: #{error_message}. Question id: #{id}, replier_id: #{replier_id}, replier_type: #{assignment.user_role}.")
+    logger.warn("Answering question failed: #{error_message}. Question id: #{id}, replier_id: #{replier_id}, replier_type: #{assignment.handler}.")
   ensure
     return answer_obj
   end
 
   def empty_expire_at
     self.expire_at = nil if race?
+  end
+
+  def increase_race_count
+    increment(:engineer_race_count)
+    set_can_be_raced
+  end
+
+  def decrease_race_count
+    decrement(:engineer_race_count)
+    set_can_be_raced
+  end
+
+  def set_can_be_raced
+    if handler != 'engineer'
+      self.can_be_raced = false
+    else
+      self.can_be_raced = !reach_race_limit?
+    end
   end
 end

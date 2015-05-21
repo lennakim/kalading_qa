@@ -4,9 +4,17 @@ defaults: &defaults
 development:
   <<: *defaults
   # 登录时不调用后台API，而是使用本地数据
-  # 仅development环境有用
-  use_local_data: true
-  kalading_management_api_uri: "http://121.42.155.108:81"
+  use_local_data_to_sign_in: false
+  kalading_management_api:
+    uri: "http://t.kalading.com:81"
+    user: '18655551001'
+    pwd: '111111'
+    timeout: 20
+    max_page: 50
+  question:
+    engineer_race_duration: <%= 1.hour %>
+    engineer_answering_duration: <%= 20.minutes %>
+    race_limit: 8
   mailer:
     smtp:
       address: ''
@@ -29,10 +37,47 @@ test:
 
 staging:
   <<: *defaults
+  use_local_data_to_sign_in: false
+  kalading_management_api:
+    uri: "http://t.kalading.com:81"
+    user: '18655551001'
+    pwd: '111111'
+    timeout: 20
+    max_page: 50
+  question:
+    engineer_race_duration: <%= 1.hour %>
+    engineer_answering_duration: <%= 20.minutes %>
+    race_limit: 8
+  mailer:
+    smtp:
+      address: ''
+      port: 25
+      domain: ''
+      user_name: ''
+      password: ''
+  exception_notification:
+    recipients:
+      - ''
+  pic_storage: 'qiniu'
+  qiniu:
+    access_key: ''
+    secret_key: ''
+    bucket: ''
+    bucket_domain: ''
 
 production:
   <<: *defaults
-  kalading_management_api_uri: ""
+  use_local_data_to_sign_in: false
+  kalading_management_api:
+    uri: ''
+    user: ''
+    pwd: ''
+    timeout: 20
+    max_page: 50
+  question:
+    engineer_race_duration: <%= 1.hour %>
+    engineer_answering_duration: <%= 20.minutes %>
+    race_limit: 8
   mailer:
     smtp:
       address: ''
