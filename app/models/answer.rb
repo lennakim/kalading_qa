@@ -7,10 +7,12 @@ class Answer < ActiveRecord::Base
   def adopt
     self.adopted_at = Time.current
     question.adopt if !question.adopted?
+    summary = ReplierSummary.get_summary(replier_id, Time.current)
 
     transaction do
       self.save!
       question.save!
+      summary.after_adopt!
     end
     true
   rescue ActiveRecord::RecordInvalid

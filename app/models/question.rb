@@ -51,6 +51,7 @@ class Question < ActiveRecord::Base
     event :assign_to_engineer, after_commit: :add_engineer_question_expiration_job do
       before do
         self.handler = 'engineer'
+        self.can_be_raced = true
         set_expire_at_for_engineer
       end
       transitions from: :init, to: :race
@@ -176,11 +177,13 @@ class Question < ActiveRecord::Base
     answer_obj.attributes = answer_attrs
     self.process if !self.adopted?
     assignment.process
+    summary = ReplierSummary.get_summary(answer_attrs[:replier_id], Time.current)
 
     transaction do
       answer_obj.save!
       self.save!
       assignment.save!
+      summary.after_answer!
     end
   rescue ActiveRecord::RecordInvalid
     error_message = [answer_obj, self, assignment].map { |obj| obj.errors.full_messages }.flatten.join(', ')

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520140523) do
+ActiveRecord::Schema.define(version: 20150521030513) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id",  limit: 4
@@ -107,6 +107,18 @@ ActiveRecord::Schema.define(version: 20150520140523) do
   add_index "questions", ["can_be_raced"], name: "index_questions_on_can_be_raced", using: :btree
   add_index "questions", ["customer_id"], name: "index_questions_on_customer_id", using: :btree
   add_index "questions", ["state", "created_at"], name: "index_questions_on_state_and_created_at", using: :btree
+
+  create_table "replier_summaries", force: :cascade do |t|
+    t.string   "replier_id",      limit: 255,               null: false
+    t.datetime "month",                                     null: false
+    t.integer  "answers_count",   limit: 4,   default: 0
+    t.integer  "adoptions_count", limit: 4,   default: 0
+    t.float    "bonus",           limit: 24,  default: 0.0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "replier_summaries", ["replier_id", "month"], name: "index_replier_summaries_on_replier_id_and_month", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string "name", limit: 255, null: false
