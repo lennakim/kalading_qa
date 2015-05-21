@@ -20,18 +20,26 @@ module KaladingQa
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = 'zh-CN'
 
+    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_name_prefix = Rails.env
+
+    config.active_record.raise_in_transactional_callbacks = true
+
     config.eager_load_paths += %W[#{config.root}/lib/api_clients]
+
+    # https://wjp2013.github.io/rails/Auto-loading-lib-files-in-Rails-4/
+    # config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+    # config.eager_load_paths += Dir[Rails.root.join('app', 'api', '*')]
+
+    config.middleware.use(Rack::Config) do |env| # 支持 grape-jbuilder
+      env['api.tilt.root'] = Rails.root.join 'app', 'api'
+    end
 
     config.generators do |g|
       g.orm :active_record
       g.view_specs      false
       g.helper_specs    false
     end
-
-    config.active_job.queue_adapter = :sidekiq
-    config.active_job.queue_name_prefix = Rails.env
-
-    config.active_record.raise_in_transactional_callbacks = true
 
     config.active_support.test_order = :random
   end

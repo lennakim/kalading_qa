@@ -61,6 +61,7 @@ group :development, :test do
   gem 'byebug'
 end
 
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -71,6 +72,15 @@ gem 'unicorn'
 gem 'newrelic_rpm'
 gem 'slack-notifier'
 gem 'exception_notification', '~> 4.0.1'
+
+#api
+gem 'grape'
+gem 'grape-entity'
+gem 'grape-jbuilder'
+gem 'swagger-ui_rails'
+gem 'grape-swagger-rails'
+gem 'rack-cors'
+
 
 # deployment
 group :development do
