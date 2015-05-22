@@ -1,0 +1,6 @@
+.navbar.navbar-default
+  .container-fluid
+    .navbar-header
+      = link_to '问答管理', admin_root_path, class: 'navbar-brand'
+    .pull-right
+      = link_to '注销', destroy_admin_session_path, method: :delete, class: 'btn btn-link'

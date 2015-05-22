@@ -6,6 +6,10 @@ zh-CN:
         phone_num: '联系电话'
         password: '密码'
         remember_me: '记住密码'
+      admin:
+        email: '邮箱'
+        password: '密码'
+        remember_me: '记住密码'
       question:
         customer_id: '客户'
         content: '内容'

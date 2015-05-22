@@ -1,20 +1,24 @@
+doctype html
 html
   head
-    title 问答系统
+    title 问答管理系统
     meta[charset="utf-8"]
     meta[http-equiv="X-UA-Compatible" content="IE=edge"]
     meta[content="width=device-width, initial-scale=1.0" name="viewport"]
     meta[name="MobileOptimized" content="320"]
 
-    = stylesheet_link_tag "application", media: "all"
+    = stylesheet_link_tag "admins/admin", media: "all"
 
     = csrf_meta_tags
 
   body
+    .header
+      = render 'layouts/admin_header'
+
     .container-fluid
       .row
-        .col-md-4.col-md-offset-4.well
+        .col-md-12
           = bootstrap_flash
           = yield
 
-    = javascript_include_tag "application"
+    = javascript_include_tag "admins/admin"

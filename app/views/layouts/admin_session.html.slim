@@ -6,7 +6,7 @@ html
     meta[content="width=device-width, initial-scale=1.0" name="viewport"]
     meta[name="MobileOptimized" content="320"]
 
-    = stylesheet_link_tag "application", media: "all"
+    = stylesheet_link_tag "admins/admin", media: "all"
 
     = csrf_meta_tags
 
@@ -17,4 +17,4 @@ html
           = bootstrap_flash
           = yield
 
-    = javascript_include_tag "application"
+    = javascript_include_tag "admins/admin"

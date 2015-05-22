@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   devise_for :users, controllers: { sessions: 'sessions' }
+  devise_for :admins, controllers: { sessions: 'admins/sessions' }
 
   resources :questions, only: [:index, :new, :create] do
     member do
@@ -34,4 +35,13 @@ Rails.application.routes.draw do
   end
 
   resources :question_bases, only: [:index, :new, :create]
+
+  # Admin是model（class），这意味着Admin就不能再是module，所以不能用:admin来做namespace，而要用:admins
+  # 但是devise又要调用admin_root_path，所以这里用了 namespace :admins, as: :admin
+  # 使得path name用的是admin，而namespace仍然是admins
+  namespace :admins, as: :admin do
+    root 'questions#index'
+
+    resources :questions, only: [:index]
+  end
 end
