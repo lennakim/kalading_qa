@@ -11,6 +11,8 @@ development:
     pwd: '111111'
     timeout: 20
     max_page: 50
+  api:
+    secret: 'fd476ecba6cbac53adbe8c19b7e174cafefc3bb9de2b051a5be33448829d01b6c9818157e38efe220c6eb0555c3709527c92bb142e9c3ecc8ffd3ea20642fa84'
   question:
     engineer_race_duration: <%= 1.hour %>
     engineer_answering_duration: <%= 20.minutes %>
@@ -44,6 +46,8 @@ staging:
     pwd: '111111'
     timeout: 20
     max_page: 50
+  api:
+    secret: ''
   question:
     engineer_race_duration: <%= 1.hour %>
     engineer_answering_duration: <%= 20.minutes %>
@@ -74,6 +78,8 @@ production:
     pwd: ''
     timeout: 20
     max_page: 50
+  api:
+    secret: ''
   question:
     engineer_race_duration: <%= 1.hour %>
     engineer_answering_duration: <%= 20.minutes %>

@@ -80,7 +80,7 @@ gem 'grape-jbuilder'
 gem 'swagger-ui_rails'
 gem 'grape-swagger-rails'
 gem 'rack-cors'
-
+gem 'jwt'
 
 # deployment
 group :development do
