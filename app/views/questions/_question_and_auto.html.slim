@@ -1,3 +1,5 @@
+td.identification
+  = question.id
 td.content(title=question.content)
   = link_to truncate_question_content(question.content), question_path(question)
 td.auto_submodel
