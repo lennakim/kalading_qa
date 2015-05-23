@@ -1,6 +1,12 @@
 .navbar.navbar-default
   .container-fluid
-    .navbar-header
+    .navbar-header.col-md-2
       = link_to '问答管理', admin_root_path, class: 'navbar-brand'
-    .pull-right
-      = link_to '注销', destroy_admin_session_path, method: :delete, class: 'btn btn-link'
+
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li= link_to '问题', admin_questions_path
+        li= link_to '用户', be_able_to_sign_in_admin_users_path
+
+      ul.nav.navbar-nav.navbar-right
+        li= link_to '注销', destroy_admin_session_path, method: :delete, class: 'btn btn-link'

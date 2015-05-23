@@ -14,6 +14,10 @@ class User < ActiveRecord::Base
     Role.where(name: 'specialist').first.users
   end
 
+  def self.be_able_to_sign_in
+    joins(:roles).where('roles.name' => Role::SIGN_IN_ROLES)
+  end
+
   def role_list
     @role_list ||= roles.pluck(:name)
   end
@@ -23,7 +27,13 @@ class User < ActiveRecord::Base
     self.roles = _roles if _roles.present?
   end
 
-  def has_role?(role_name)
-    role_list.include?(role_name.to_s)
+  def has_role?(*role_names)
+    role_names.flatten.any? do |role_name|
+      role_list.include?(role_name.to_s)
+    end
+  end
+
+  def be_able_to_sign_in?
+    has_role?(Role::SIGN_IN_ROLES)
   end
 end

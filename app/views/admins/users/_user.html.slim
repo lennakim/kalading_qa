@@ -1,0 +1,7 @@
+tr
+  td= user.name
+  td= translate_roles(user.role_list).join('，')
+  td= user.phone_num
+  td
+    - if user.be_able_to_sign_in?
+      => link_to '以该用户登录', sign_in_as_admin_user_path(user), class: 'btn btn-danger btn-xs', method: :put, :'data-confirm' => '确定要以该用户的身份登录吗？'

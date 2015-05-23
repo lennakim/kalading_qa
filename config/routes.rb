@@ -43,5 +43,14 @@ Rails.application.routes.draw do
     root 'questions#index'
 
     resources :questions, only: [:index]
+    resources :users, only: [] do
+      member do
+        put :sign_in_as
+      end
+
+      collection do
+        get :be_able_to_sign_in
+      end
+    end
   end
 end
