@@ -5,6 +5,7 @@ class AnswersController < ApplicationController
 
   def new
     @answer = @question.answers.build
+    @editable = true
   end
 
   def create
@@ -20,6 +21,7 @@ class AnswersController < ApplicationController
       flash[:notice] = '添加答案成功'
       redirect_to my_processed_questions_path
     else
+      @editable = true
       render action: 'new'
     end
   end

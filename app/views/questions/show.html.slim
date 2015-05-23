@@ -1,0 +1,9 @@
+.row
+  .col-md-8
+    .question
+      = render 'questions/detail'
+
+      hr
+
+      .answers
+        = render partial: 'answers/answer', collection: @question.persist_answers

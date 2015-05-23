@@ -10,7 +10,8 @@
         span.label.label-success
           | 已采纳
       - else
-        = link_to '采纳', adopt_answer_path(answer), method: :put, data: {confirm: '确定要采纳这个答案吗？'}, class: 'btn btn-default'
+        - if @editable == true
+          = link_to '采纳', adopt_answer_path(answer), method: :put, data: {confirm: '确定要采纳这个答案吗？'}, class: 'btn btn-default'
   .answer_content
     = answer.content
 

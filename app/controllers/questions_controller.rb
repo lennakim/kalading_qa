@@ -39,6 +39,11 @@ class QuestionsController < ApplicationController
                                               .page(params[:page])
   end
 
+  def show
+    @question = Question.find(params[:id])
+    @editable = false
+  end
+
   def nullify
     authorize! :check, Question
 

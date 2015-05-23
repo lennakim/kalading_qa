@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: 'sessions' }
   devise_for :admins, controllers: { sessions: 'admins/sessions' }
 
-  resources :questions, only: [:index, :new, :create] do
+  resources :questions, only: [:index, :new, :create, :show] do
     member do
       put :nullify
       put :to_dispatcher
