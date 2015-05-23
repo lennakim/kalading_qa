@@ -30,6 +30,11 @@ class SessionsController < Devise::SessionsController
     end
   end
 
+  def destroy
+    clean_sign_in_as
+    super
+  end
+
   private
 
   def update_user(phone_num, password, result)

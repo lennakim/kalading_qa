@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+  include Concerns::SignInAs::Application
+  helper_method :admin_sign_in_as_user?
+
   before_action :authenticate_user!
 
   # Prevent CSRF attacks by raising an exception.
