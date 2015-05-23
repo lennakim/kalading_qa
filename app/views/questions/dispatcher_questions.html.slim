@@ -2,9 +2,6 @@ table.table.table-striped.table-hover.questions
   tbody
     - @questions.each do |question|
       tr
-        td.content(title=question.content)
-          = truncate_question_content(question.content)
-        td.auto_submodel
-          = question.auto_submodel.full_name
+        = render partial: 'question_and_auto', locals: {question: question}
         td
           = link_to '输入答案', new_question_answer_path(question), class: 'btn btn-sm btn-primary'

@@ -2,10 +2,7 @@ table.table.table-striped.table-hover.questions
   tbody
     - @questions.each do |question|
       tr
-        td.content(title=question.content)
-          = truncate_question_content(question.content)
-        td.auto_submodel
-          = question.auto_submodel.full_name
+        = render partial: 'question_and_auto', locals: {question: question}
         td
           - if question.any_engineer_raced?
             | 正在解答
