@@ -1,6 +1,5 @@
 # See http://unicorn.bogomips.org/Unicorn/Configurator.html for complete documentation.
 
-# root_path = File.expand_path '../', File.dirname(__FILE__)
 root_path = "/home/deployer/apps/kalading_qa/current"
 working_directory root_path
 
@@ -15,7 +14,7 @@ stdout_path "#{root_path}/log/unicorn.stdout.log"
 # Force the bundler gemfile environment variable to
 # reference the capistrano "current" symlink
 before_exec do |_|
-  ENV["BUNDLE_GEMFILE"] = File.join(root, 'Gemfile')
+  ENV["BUNDLE_GEMFILE"] = File.join(root_path, 'Gemfile')
 end
 
 preload_app true
