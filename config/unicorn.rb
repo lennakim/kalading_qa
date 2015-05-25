@@ -1,9 +1,10 @@
 # See http://unicorn.bogomips.org/Unicorn/Configurator.html for complete documentation.
 
-root_path = File.expand_path '../', File.dirname(__FILE__)
+# root_path = File.expand_path '../', File.dirname(__FILE__)
+root_path = "/home/deployer/apps/kalading_qa/current"
 working_directory root_path
 
-listen "/tmp/sockets/unicorn_kalading_qa.sock", backlog: 64
+listen "/tmp/unicorn_kalading_qa.sock", backlog: 64
 timeout 30
 
 pid "#{root_path}/tmp/pids/unicorn.pid"
