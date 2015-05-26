@@ -36,6 +36,7 @@ set :unicorn_worker_count, 2
 # whether we're using ssl or not, used for building nginx config file
 set :enable_ssl, false
 
+set :sidekiq_processes, 1
 
 # Custom SSH Options
 # ==================

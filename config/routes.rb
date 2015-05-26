@@ -6,8 +6,9 @@ Rails.application.routes.draw do
 
   root 'questions#index'
 
-  # TODO: 应该只允许admin访问
-  mount Sidekiq::Web => '/sidekiq'
+  authenticate :admin do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   devise_for :users, controllers: { sessions: 'sessions' }
   devise_for :admins, controllers: { sessions: 'admins/sessions' }

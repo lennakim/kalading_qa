@@ -7,6 +7,7 @@
       ul.nav.navbar-nav
         li= link_to '问题', admin_questions_path
         li= link_to '用户', be_able_to_sign_in_admin_users_path
+        li= link_to 'Sidekiq', sidekiq_web_path, target: '_blank'
 
       ul.nav.navbar-nav.navbar-right
         li= link_to '注销', destroy_admin_session_path, method: :delete, class: 'btn btn-link'
