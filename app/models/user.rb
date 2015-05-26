@@ -14,6 +14,10 @@ class User < ActiveRecord::Base
     Role.where(name: 'specialist').first.users
   end
 
+  def self.engineers
+    Role.where(name: 'engineer').first.users
+  end
+
   def self.be_able_to_sign_in
     joins(:roles).where('roles.name' => Role::SIGN_IN_ROLES)
   end
