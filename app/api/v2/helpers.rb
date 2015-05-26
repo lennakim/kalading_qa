@@ -18,7 +18,7 @@ module V2
 
     def authenticate!
       if current_resource.nil?
-        raise AuthorizationError
+        raise AuthenticationError
       end
     end
 
@@ -44,7 +44,7 @@ module V2
       end
       resource
     rescue JWT::DecodeError
-      raise AuthorizationError
+      raise AuthenticationError
     end
   end
 
@@ -76,6 +76,12 @@ module V2
   class TokenExpiredError < Error
     def initialize
       super code: 1003, text: 'Token expired', status: 403
+    end
+  end
+
+  class AuthenticationError < Error
+    def initialize
+      super code: 1004, text: 'Authentication failed', status: 401
     end
   end
 
