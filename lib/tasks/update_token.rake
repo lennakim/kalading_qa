@@ -1,10 +1,12 @@
+require 'tasks/rake_output'
+
 namespace :qa do
   desc 'Update authentication token of management API'
   task update_token: :environment do
     if UserToken.update_token
-      puts "Updating authentication token succeeded."
+      RakeOutput.succeed('Updating authentication token')
     else
-      puts "Updating authentication token failed.".colorize(:red)
+      RakeOutput.fail('Updating authentication token')
     end
   end
 end

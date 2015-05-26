@@ -1,27 +1,34 @@
+require 'tasks/rake_output'
+
 namespace :qa do
   desc 'Sync specialist data from management'
   task sync_specialist_data: :environment do
     sync_user_data('specialist')
+    RakeOutput.finish('Sync specialist data')
   end
 
   desc 'Sync dispatcher data from management'
   task sync_dispatcher_data: :environment do
     sync_user_data('dispatcher')
+    RakeOutput.finish('Sync dispatcher data')
   end
 
   desc 'Sync support manager data from management'
   task sync_support_manager_data: :environment do
     sync_user_data('support_manager')
+    RakeOutput.finish('Sync support_manager data')
   end
 
   desc 'Sync engineer data from management'
   task sync_engineer_data: :environment do
     sync_user_data('engineer')
+    RakeOutput.finish('Sync engineer data')
   end
 
   desc 'Sync auto data from management'
   task sync_auto_data: :environment do
     sync_auto_data
+    RakeOutput.finish('Sync auto data')
   end
 end
 
