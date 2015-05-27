@@ -9,15 +9,15 @@ module V2
           返回值
           -----
           ~~~
-            [
-              {
-                "id": 1,
-                "content": "问题内容",
-                "auto_submodel_full_name": "车型",
-                "images": ["http://..."],
-                "answers_count": 4
-              }
-            ]
+          [
+            {
+              "id": 1,
+              "content": "问题内容",
+              "auto_submodel_full_name": "车型",
+              "answers_count": 4,
+              "has_images": true
+            }
+          ]
           ~~~
         NOTE
       }
@@ -33,7 +33,7 @@ module V2
                                       .page(params[:page])
                                       .per(params[:per_page])
                                       .map(&:question)
-        present questions, with: V2::Entities::Question
+        present questions, with: V2::Entities::Question, type: :summary
       end
 
       desc '可抢答问题列表 | 技师app', {
@@ -42,15 +42,15 @@ module V2
           返回值
           -----
           ~~~
-            [
-              {
-                "id": 1,
-                "content": "问题内容",
-                "auto_submodel_full_name": "车型",
-                "images": ["http://..."],
-                "answers_count": 4
-              }
-            ]
+          [
+            {
+              "id": 1,
+              "content": "问题内容",
+              "auto_submodel_full_name": "车型",
+              "answers_count": 4,
+              "has_images": true
+            }
+          ]
           ~~~
         NOTE
       }
@@ -63,7 +63,44 @@ module V2
         questions = Question.where(can_be_raced: true)
                             .page(params[:page])
                             .per(params[:per_page])
-        present questions, with: V2::Entities::Question
+        present questions, with: V2::Entities::Question, type: :summary
+      end
+
+      desc '问题明细 | 技师app，问答app', {
+        headers: DescHeaders.authentication_headers,
+        notes: <<-NOTE
+          返回值
+          -----
+          ~~~
+          {
+            "id": 1,
+            "content": "问题内容",
+            "auto_submodel_full_name": "车型",
+            "answers_count": 1,
+            "images": ["http://..."],
+            "created_at": "2015-05-27",
+            "answers": [
+              {
+                "id": 24,
+                "content": "答案",
+                "created_at": "2015-05-27 14:32:54",
+                "adopted": false,
+                "replier": {
+                  "internal_id": "55264ab17e2d818ef5000002",
+                  "name": "回答者"
+                }
+              }
+            ]
+          }
+          ~~~
+        NOTE
+      }
+      get ':id' do
+        authenticate!
+
+        question = QuestionAssignment.find_by!(user_internal_id: current_resource.internal_id,
+                                               question_id: params[:id]).question
+        present question, with: V2::Entities::Question, type: :with_answers
       end
 
     end

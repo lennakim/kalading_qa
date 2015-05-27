@@ -1,7 +1,7 @@
 module V2
   module Entities
     class ReplierSummary < BaseEntity
-      format_with(:year_month) { |m| m.strftime("%Y年%-m月") }
+      format_with(:year_month) { |m| m.strftime("%Y年%-m月") if m }
 
       expose :id
       expose :month, format_with: :year_month

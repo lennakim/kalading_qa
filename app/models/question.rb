@@ -81,6 +81,10 @@ class Question < ActiveRecord::Base
     end
   end
 
+  def has_images?
+    images.present?
+  end
+
   def persist_answers
     answers.select { |answer| answer.persisted? }
   end
