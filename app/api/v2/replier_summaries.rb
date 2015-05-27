@@ -3,7 +3,7 @@ module V2
     helpers V2::SharedParams
 
     resources :replier_summaries do
-      desc '技师收益列表', {
+      desc '技师收益列表 | 技师app', {
         headers: DescHeaders.authentication_headers(source: 'engineer'),
         notes: <<-NOTE
           返回值
