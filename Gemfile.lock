@@ -183,6 +183,7 @@ GEM
       kaminari (>= 0.13.0)
       rails
     kgio (2.9.3)
+    kramdown (1.7.0)
     launchy (2.2.0)
       addressable (~> 2.3)
     letter_opener (1.1.0)
@@ -418,6 +419,7 @@ DEPENDENCIES
   grape
   grape-entity
   grape-jbuilder
+  grape-swagger
   grape-swagger-rails
   http_logger
   jbuilder (~> 2.0)
@@ -426,6 +428,7 @@ DEPENDENCIES
   jwt
   kaminari
   kaminari-bootstrap (~> 3.0.1)
+  kramdown
   letter_opener
   meta_request
   mini_magick

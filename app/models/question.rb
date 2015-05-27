@@ -19,6 +19,8 @@ class Question < ActiveRecord::Base
                                                   less_than_or_equal_to: Settings.question.race_limit }
   validates_presence_of :auto_submodel_internal_id, :customer_id, :content, :state
 
+  delegate :full_name, to: :auto_submodel, prefix: true
+
   aasm column: 'state' do
     state :init, initial: true
     # 无效

@@ -1,4 +1,4 @@
-require 'grape-swagger'
+# require 'grape-swagger'
 
 module V2
   class Root < Grape::API
@@ -15,7 +15,11 @@ module V2
     end
 
     mount Tags
+    mount Questions
 
-    add_swagger_documentation base_path: "/api", api_version: 'v2', mount_path: 'doc'
+    add_swagger_documentation base_path: "/api",
+                              api_version: 'v2',
+                              mount_path: 'doc',
+                              markdown: GrapeSwagger::Markdown::KramdownAdapter
   end
 end

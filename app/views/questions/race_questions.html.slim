@@ -3,6 +3,6 @@ table.table.table-striped.table-hover.questions
     - @questions.each do |question|
       tr
         = render partial: 'question_and_auto', locals: {question: question}
-        td
+        td.answering
           - if question.any_engineer_raced?
             | 正在解答

@@ -12,8 +12,7 @@ module V2
     end
 
     def current_resource
-      request = Grape::Request.new(env)
-      @current_resource = get_resource!(request.headers)
+      @current_resource ||= get_resource!(Grape::Request.new(env).headers)
     end
 
     def authenticate!

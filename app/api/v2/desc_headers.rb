@@ -3,12 +3,12 @@ module V2
     extend self
 
     TOKEN_DESC = {
-      engineer: 'JWT encode后的token值',
-      customer: 'user token'
+      'engineer' => 'JWT encode后的token值',
+      'customer' => 'user token'
     }
 
     def authentication_headers(options = {})
-      source = options[:source].try(:to_sym)
+      source = options[:source].try(:to_s)
       source_desc = source || 'engineer, customer'
       token_desc = source.present? ? TOKEN_DESC[source] : TOKEN_DESC.map{|k,v| "#{k}: #{v}"}.join('. ')
 
