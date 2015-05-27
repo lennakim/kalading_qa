@@ -1,5 +1,7 @@
 module V2
   class Questions < Grape::API
+    helpers V2::SharedParams
+
     resources :questions do
       desc '我回答过的问题', {
         headers: DescHeaders.authentication_headers(source: 'engineer'),
@@ -19,6 +21,9 @@ module V2
           ~~~
         NOTE
       }
+      params do
+        use :pagination
+      end
       get :my_answered do
         authenticate!
 
@@ -26,6 +31,7 @@ module V2
                                       .order(updated_at: :desc)
                                       .includes(:question)
                                       .page(params[:page])
+                                      .per(params[:per_page])
                                       .map(&:question)
         present questions, with: V2::Entities::Question
       end

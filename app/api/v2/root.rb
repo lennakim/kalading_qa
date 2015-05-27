@@ -14,8 +14,9 @@ module V2
       header['Access-Control-Request-Method'] = '*'
     end
 
-    mount Tags
-    mount Questions
+    mount V2::Tags
+    mount V2::Questions
+    mount V2::ReplierSummaries
 
     add_swagger_documentation base_path: "/api",
                               api_version: 'v2',
