@@ -1,25 +1,26 @@
 module V2
   class Questions < Grape::API
     helpers V2::SharedParams
+    SUMMARY_RESPONSE = <<-NOTE
+      返回值
+      -----
+      ~~~
+      [
+        {
+          "id": 1,
+          "content": "问题内容",
+          "auto_submodel_full_name": "车型",
+          "answers_count": 4,
+          "has_images": true
+        }
+      ]
+      ~~~
+    NOTE
 
     resources :questions do
       desc '我回答过的问题 | 技师app', {
         headers: DescHeaders.authentication_headers(source: 'engineer'),
-        notes: <<-NOTE
-          返回值
-          -----
-          ~~~
-          [
-            {
-              "id": 1,
-              "content": "问题内容",
-              "auto_submodel_full_name": "车型",
-              "answers_count": 4,
-              "has_images": true
-            }
-          ]
-          ~~~
-        NOTE
+        notes: SUMMARY_RESPONSE
       }
       params do
         use :pagination
@@ -38,21 +39,7 @@ module V2
 
       desc '可抢答问题列表 | 技师app', {
         headers: DescHeaders.authentication_headers(source: 'engineer'),
-        notes: <<-NOTE
-          返回值
-          -----
-          ~~~
-          [
-            {
-              "id": 1,
-              "content": "问题内容",
-              "auto_submodel_full_name": "车型",
-              "answers_count": 4,
-              "has_images": true
-            }
-          ]
-          ~~~
-        NOTE
+        notes: SUMMARY_RESPONSE
       }
       params do
         use :pagination
@@ -95,12 +82,29 @@ module V2
           ~~~
         NOTE
       }
-      get ':id' do
+      get ':id', requirements: { id: /[0-9]+/ } do
         authenticate!
 
         question = QuestionAssignment.find_by!(user_internal_id: current_resource.internal_id,
                                                question_id: params[:id]).question
         present question, with: V2::Entities::Question, type: :with_answers
+      end
+
+      desc '客户问题列表 | 问答app', {
+        headers: DescHeaders.authentication_headers(source: 'customer'),
+        notes: SUMMARY_RESPONSE
+      }
+      params do
+        use :pagination
+      end
+      get :customer_questions do
+        authenticate!
+
+        questions = Question.where(customer_id: current_resource.id)
+                            .order(created_at: :desc)
+                            .page(params[:page])
+                            .per(params[:per_page])
+        present questions, with: V2::Entities::Question, type: :summary
       end
 
     end

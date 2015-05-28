@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150522034532) do
+ActiveRecord::Schema.define(version: 20150528014453) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",               limit: 255, default: "", null: false
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 20150522034532) do
   end
 
   add_index "questions", ["can_be_raced"], name: "index_questions_on_can_be_raced", using: :btree
-  add_index "questions", ["customer_id"], name: "index_questions_on_customer_id", using: :btree
+  add_index "questions", ["customer_id", "created_at"], name: "index_questions_on_customer_id_and_created_at", using: :btree
   add_index "questions", ["state", "created_at"], name: "index_questions_on_state_and_created_at", using: :btree
 
   create_table "replier_summaries", force: :cascade do |t|
