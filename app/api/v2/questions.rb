@@ -112,7 +112,7 @@ module V2
           {
             "code": -1,
             "msg": [
-              "您不能回答此题"
+              "您不能抢答此题"
             ]
           }
           ~~~
@@ -130,6 +130,56 @@ module V2
         else
           present :code, -1
           present :msg, question.errors.full_messages
+        end
+      end
+
+      desc '回答问题 | 技师app', {
+        headers: DescHeaders.authentication_headers(source: 'engineer'),
+        notes: <<-NOTE
+          返回值
+          -----
+
+          回答成功
+
+          ~~~
+          {
+            "code": 0,
+            "msg": []
+          }
+          ~~~
+
+          <br>
+          回答失败
+
+          ~~~
+          {
+            "code": -1,
+            "msg": [
+              "您不能回答此题"
+            ]
+          }
+          ~~~
+        NOTE
+      }
+      params do
+        requires :content, type: String, desc: '答案内容'
+      end
+      post ':id/answers' do
+        authenticate!
+
+        question = Question.find(params[:id])
+        answer = question.answer(
+                   replier_id: current_resource.internal_id,
+                   replier_type: 'engineer',
+                   content: params[:content]
+                 )
+
+        if answer.persisted?
+          present :code, 0
+          present :msg, []
+        else
+          present :code, -1
+          present :msg, answer.errors.full_messages
         end
       end
 

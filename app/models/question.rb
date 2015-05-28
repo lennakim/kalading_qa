@@ -141,7 +141,7 @@ class Question < ActiveRecord::Base
     elsif fallback?
       errors.add(:base, '已交给专家来回答')
     elsif !can_be_raced?
-      errors.add(:base, '您不能回答此题')
+      errors.add(:base, '您不能抢答此题')
     end
 
     errors.blank?
