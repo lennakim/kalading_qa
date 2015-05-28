@@ -95,7 +95,8 @@ class QuestionsController < ApplicationController
 
   private
 
+  # 示例调用的，以后不需要了可以删掉
   def question_params
-    params.require(:question).permit(images: [])
+    params.require(:question).permit({images: []}, :auto_submodel_internal_id, :customer_id, :content)
   end
 end

@@ -6,3 +6,7 @@
   - @question.tag_list.each do |tag|
     span.label.label-info
       = tag
+.question_images
+  - @question.images.each do |image|
+    img.img-responsive(src=image.url)
+    br

@@ -85,6 +85,16 @@ class Question < ActiveRecord::Base
     images.present?
   end
 
+  def image_urls
+    if Settings.pic_storage == 'file'
+      images.map do |image|
+        URI.join("http://#{Settings.host}", image.url).to_s
+      end
+    else
+      images.map(&:url)
+    end
+  end
+
   def persist_answers
     answers.select { |answer| answer.persisted? }
   end

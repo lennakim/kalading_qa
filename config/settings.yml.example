@@ -33,6 +33,7 @@ development:
     secret_key: ''
     bucket: ''
     bucket_domain: ''
+  host: 'localhost:3000'
 
 test:
   <<: *defaults
@@ -68,6 +69,7 @@ staging:
     secret_key: ''
     bucket: ''
     bucket_domain: ''
+  host: ''
 
 production:
   <<: *defaults
@@ -100,3 +102,4 @@ production:
     secret_key: ''
     bucket: ''
     bucket_domain: ''
+  host: ''

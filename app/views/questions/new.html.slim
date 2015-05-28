@@ -1,3 +1,7 @@
-= simple_form_for @question, html: { multipart: true } do |f|
+/* 示例，以后不需要了可以删掉 */
+= simple_form_for @question, html: { multipart: true, class: 'form-horizontal' } do |f|
+  = f.input :auto_submodel_internal_id
+  = f.input :customer_id
+  = f.input :content
   = f.input :images, as: :file, input_html: {multiple: true}
   = f.submit
