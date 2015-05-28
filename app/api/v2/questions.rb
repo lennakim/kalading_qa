@@ -90,6 +90,49 @@ module V2
         present question, with: V2::Entities::Question, type: :with_answers
       end
 
+      desc '抢答问题 | 技师app', {
+        headers: DescHeaders.authentication_headers(source: 'engineer'),
+        notes: <<-NOTE
+          返回值
+          -----
+
+          抢答成功
+
+          ~~~
+          {
+            "code": 0,
+            "msg": []
+          }
+          ~~~
+
+          <br>
+          抢答失败
+
+          ~~~
+          {
+            "code": -1,
+            "msg": [
+              "您不能回答此题"
+            ]
+          }
+          ~~~
+        NOTE
+      }
+      put ':id/race' do
+        authenticate!
+
+        question = Question.find(params[:id])
+        result = question.race_by_engineer(current_resource.internal_id)
+
+        if result
+          present :code, 0
+          present :msg, []
+        else
+          present :code, -1
+          present :msg, question.errors.full_messages
+        end
+      end
+
       desc '客户问题列表 | 问答app', {
         headers: DescHeaders.authentication_headers(source: 'customer'),
         notes: SUMMARY_RESPONSE
