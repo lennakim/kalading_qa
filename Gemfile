@@ -80,7 +80,7 @@ gem 'grape-jbuilder'
 gem 'swagger-ui_rails'
 gem 'kramdown'
 gem 'grape-swagger'
-gem 'grape-swagger-rails'
+# gem 'grape-swagger-rails'
 gem 'rack-cors'
 gem 'jwt'
 
