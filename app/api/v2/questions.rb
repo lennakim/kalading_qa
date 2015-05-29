@@ -268,8 +268,13 @@ module V2
       get ':id', requirements: { id: /[0-9]+/ } do
         authenticate!
 
-        question = QuestionAssignment.find_by!(user_internal_id: current_resource.internal_id,
-                                               question_id: params[:id]).question
+        case source
+        when 'engineer'
+          question = QuestionAssignment.find_by!(user_internal_id: current_resource.internal_id,
+                                                 question_id: params[:id]).question
+        when 'customer'
+          question = Question.find_by!(id: params[:id], customer_id: current_resource.id)
+        end
         present question, with: V2::Entities::Question, type: :with_answers
       end
 

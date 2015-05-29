@@ -12,7 +12,7 @@ module V2
     end
 
     def current_resource
-      @current_resource ||= get_resource!(Grape::Request.new(env).headers)
+      @current_resource ||= get_resource!
     end
 
     def authenticate!
@@ -23,8 +23,11 @@ module V2
 
     private
 
-    def get_resource!(headers)
-      source = headers['X-Source'].to_s.downcase
+    def source
+      headers['X-Source'].to_s.downcase
+    end
+
+    def get_resource!
       token = headers['X-Token'].to_s
 
       case source

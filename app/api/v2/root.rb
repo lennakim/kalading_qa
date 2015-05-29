@@ -16,6 +16,7 @@ module V2
 
     mount V2::Tags
     mount V2::Questions
+    mount V2::Answers
     mount V2::ReplierSummaries
 
     add_swagger_documentation base_path: "/api",

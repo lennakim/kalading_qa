@@ -4,7 +4,14 @@ class Answer < ActiveRecord::Base
 
   validates_presence_of :question_id, :replier_id, :replier_type, :content
 
-  def adopt
+  def adopt(adopter_id, adopter_type)
+    if adopter_type == 'customer' && question.customer_id != adopter_id
+      errors.add(:base, '您没有权限采纳此答案')
+      return false
+    end
+
+    self.adopter_id = adopter_id
+    self.adopter_type = adopter_type
     self.adopted_at = Time.current
     question.adopt if !question.adopted?
     summary = ReplierSummary.get_summary(replier_id, Time.current)

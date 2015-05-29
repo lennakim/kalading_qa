@@ -27,7 +27,7 @@ class AnswersController < ApplicationController
   end
 
   def adopt
-    if @answer.adopt
+    if @answer.adopt(current_user.internal_id, current_user.role_list.first)
       flash[:notice] = '采纳答案成功'
     else
       flash[:error] = '采纳答案失败'

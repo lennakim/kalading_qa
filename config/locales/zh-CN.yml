@@ -35,3 +35,10 @@ zh-CN:
           attributes:
             question_id:
               taken: '已经分配给该用户'
+  views:
+    pagination:
+      truncate: '...'
+      first: '首页'
+      next: '下一页'
+      previous: '上一页'
+      last: '末页'
