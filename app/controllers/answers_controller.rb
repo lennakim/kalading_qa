@@ -30,7 +30,7 @@ class AnswersController < ApplicationController
     if @answer.adopt(current_user.internal_id, current_user.role_list.first)
       flash[:notice] = '采纳答案成功'
     else
-      flash[:error] = '采纳答案失败'
+      flash[:error] = @answer.errors.full_messages.presence || '采纳答案失败'
     end
     redirect_to new_question_answer_path(@answer.question)
   end

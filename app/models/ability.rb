@@ -21,6 +21,7 @@ class Ability
       can :read_answered, Question
       can :read_adopted, Question
       can :read_useless, Question
+      can :adopt, Answer
       can :read, QuestionBase
     end
 
@@ -28,6 +29,7 @@ class Ability
     if user.has_role?('dispatcher')
       can :direct_answer, Question
       can :fallback_answer, Question
+      can :adopt, Answer
       can :read, QuestionBase
       can :read, :my_processed_questions
     end

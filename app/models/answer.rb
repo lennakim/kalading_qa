@@ -5,6 +5,11 @@ class Answer < ActiveRecord::Base
   validates_presence_of :question_id, :replier_id, :replier_type, :content
 
   def adopt(adopter_id, adopter_type)
+    if question.adopted?
+      errors.add(:base, '已经有答案被采纳过了')
+      return false
+    end
+
     if adopter_type == 'customer' && question.customer_id != adopter_id
       errors.add(:base, '您没有权限采纳此答案')
       return false
