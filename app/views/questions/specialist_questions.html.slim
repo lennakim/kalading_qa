@@ -3,6 +3,6 @@ table.table.table-striped.table-hover.questions
     - @questions.each do |question|
       tr
         = render partial: 'question_and_auto', locals: {question: question}
-        td
-          => link_to '复制', '#', class: 'btn btn-sm btn-default'
+        td.with_copy_action
+          => link_to '复制', 'javascript:void(0);', class: 'btn btn-sm btn-default copy_to_clipboard'
           => link_to '输入答案', new_question_answer_path(question, replier_source: 'specialist'), class: 'btn btn-sm btn-primary'
