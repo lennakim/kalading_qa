@@ -35,7 +35,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :question_bases, only: [:index, :new, :create]
+  # 问题库暂时不用question_bases表
+  # resources :question_bases, only: [:index, :new, :create]
 
   # Admin是model（class），这意味着Admin就不能再是module，所以不能用:admin来做namespace，而要用:admins
   # 但是devise又要调用admin_root_path，所以这里用了 namespace :admins, as: :admin

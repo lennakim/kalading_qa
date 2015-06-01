@@ -5,7 +5,7 @@ class Answer < ActiveRecord::Base
   validates_presence_of :question_id, :replier_id, :replier_type, :content
 
   def adopt(adopter_id, adopter_type)
-    if question.adopted?
+    if question.has_been_adopted?
       errors.add(:base, '已经有答案被采纳过了')
       return false
     end

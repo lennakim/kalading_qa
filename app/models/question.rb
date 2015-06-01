@@ -35,6 +35,8 @@ class Question < ActiveRecord::Base
     state :answered
     # 已采纳
     state :adopted
+    # 已录入知识库
+    state :collected
 
     event :nullify do
       transitions from: :init, to: :useless
@@ -77,8 +79,19 @@ class Question < ActiveRecord::Base
     end
 
     event :adopt do
+      after do
+        collect
+      end
       transitions from: :answered, to: :adopted
     end
+
+    event :collect do
+      transitions from: :adopted, to: :collected
+    end
+  end
+
+  def has_been_adopted?
+    adopted? || collected?
   end
 
   def has_images?

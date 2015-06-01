@@ -1,3 +1,4 @@
+# 问题库暂时不用question_bases表
 class QuestionBase < ActiveRecord::Base
   serialize :question_images, JSON
   mount_uploaders :question_images, ImageUploader

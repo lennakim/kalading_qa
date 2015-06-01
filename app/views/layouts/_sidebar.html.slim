@@ -18,6 +18,7 @@ ul.nav.nav-stacked
       = link_to '我处理过的问题', my_processed_questions_path
 
     = link_to '已解答（未采纳）', questions_path(state: 'answered') if can? :read_answered, Question
-    = link_to '已采纳', questions_path(state: 'adopted') if can? :read_adopted, Question
-    = link_to '知识库', question_bases_path if can? :read, QuestionBase
+    /* = link_to '已采纳', questions_path(state: 'adopted') if can? :read_adopted, Question */
+    /* = link_to '知识库', question_bases_path if can? :read, QuestionBase */
+    = link_to '知识库（已采纳）', questions_path(state: 'collected') if can? :read_collected, Question
     = link_to '已取消', questions_path(state: 'useless') if can? :read_useless, Question

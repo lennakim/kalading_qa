@@ -9,7 +9,8 @@ class Ability
       can :read, :all
       can [:read_init, :read_direct_answer, :read_race, :read_fallback,
            :read_answered, :read_adopted, :read_useless], Question
-      can :read, QuestionBase
+      # can :read, QuestionBase
+      can :read_collected, Question
     end
 
     # 客服主管
@@ -20,9 +21,10 @@ class Ability
       can :read_fallback, Question
       can :read_answered, Question
       can :read_adopted, Question
+      can :read_collected, Question
       can :read_useless, Question
       can :adopt, Answer
-      can :read, QuestionBase
+      # can :read, QuestionBase
     end
 
     # 客服
@@ -30,7 +32,8 @@ class Ability
       can :direct_answer, Question
       can :fallback_answer, Question
       can :adopt, Answer
-      can :read, QuestionBase
+      # can :read, QuestionBase
+      can :read_collected, Question
       can :read, :my_processed_questions
     end
 

@@ -1,0 +1,8 @@
+table.table.table-striped.table-hover.questions
+  tbody
+    - @questions.each do |question|
+      tr
+        = render partial: 'question_and_auto', locals: {question: question}
+        td
+          = link_to '编辑', '#', class: 'btn btn-sm'
+= paginate @questions
