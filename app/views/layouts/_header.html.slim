@@ -1,11 +1,17 @@
-.navbar.navbar-default
+nav.navbar.navbar-default
   .container-fluid
-    .navbar-header
-      = link_to '问答系统', '/', class: 'navbar-brand'
+    .row
+      .navbar-header.col-md-2
+        = link_to '问答系统', '/', class: 'navbar-brand'
 
-    .collapse.navbar-collapse
-      ul.nav.navbar-nav.navbar-right
-        - if admin_sign_in_as_user?
-          li= link_to '记得注销！', destroy_user_session_path, method: :delete, class: 'btn btn-danger admin_cleanup_track'
-        - else
-          li= link_to '注销', destroy_user_session_path, method: :delete, class: 'btn btn-link'
+      .collapse.navbar-collapse
+        = form_tag search_questions_path, method: :get, class: 'navbar-form navbar-left' do
+          .form-group
+            = hidden_field_tag 'type', params[:type]
+            = text_field_tag 'q', params[:q], id: 'search_input', class: 'form-control'
+          = submit_tag '搜索', class: 'btn btn-default'
+        ul.nav.navbar-nav.navbar-right
+          - if admin_sign_in_as_user?
+            li= link_to '记得注销！', destroy_user_session_path, method: :delete, class: 'btn btn-danger admin_cleanup_track'
+          - else
+            li= link_to '注销', destroy_user_session_path, method: :delete, class: 'btn btn-link'

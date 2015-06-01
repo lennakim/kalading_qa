@@ -1,0 +1,16 @@
+ul.nav.nav-tabs
+  li(class="#{'active' if params[:type] == 'collected'}")
+    = link_to '知识库', search_questions_path(type: 'collected', q: params[:q])
+  li(class="#{'active' if params[:type] == 'questions'}")
+    = link_to '问题', search_questions_path(type: 'questions', q: params[:q])
+
+ul.list-group.questions
+  - Array.wrap(@questions).each do |question|
+    li.list-group-item
+      span.identification
+        = question.id
+      span.content(title=question.content)
+        = link_to truncate_question_content(question.content), question_path(question)
+      span.answers_count
+        = display_answers_count(question)
+= paginate @questions

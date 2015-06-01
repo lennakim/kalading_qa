@@ -1,6 +1,23 @@
 class QuestionsController < ApplicationController
   load_resource only: [:nullify, :to_dispatcher, :to_engineer]
 
+  def search
+    params[:type] ||= 'collected'
+
+    criteria =
+      case params[:type]
+      when 'questions'
+        Question.where(state: %w[init direct_answer race fallback answered adopted])
+      when 'collected'
+        Question.where(state: 'collected')
+      end
+
+    if criteria
+      criteria = criteria.where('content LIKE ?', "%#{params[:q]}%") if params[:q].present?
+      @questions = criteria.page(params[:page])
+    end
+  end
+
   def index
     # 客服没有权限访问root_path，自动跳转到“客服处理问题”页面
     if request.path == root_path && !can?(:read_init, Question)

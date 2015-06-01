@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     end
 
     collection do
+      get :search
       get :dispatcher_questions, as: :dispatcher
       get :specialist_questions, as: :specialist
       get :my_processed_questions, as: :my_processed

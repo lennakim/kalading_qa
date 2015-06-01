@@ -65,4 +65,30 @@ table.questions {
   td.with_copy_action {
     position: relative;
   }
+
+  td.answers_count {
+    padding-top: 13px;
+    color: #999;
+  }
+}
+
+ul.questions {
+  margin-top: 15px;
+
+  li {
+    span.identification {
+      display: inline-block;
+      width: 80px;
+      margin-right: 10px;
+      color: #999;
+    }
+
+    span.content {
+      margin-right: 25px;
+    }
+
+    span.answers_count {
+      color: #999;
+    }
+  }
 }
