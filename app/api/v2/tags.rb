@@ -1,6 +1,6 @@
 module V2
   class Tags < Grape::API
-    resources :tags do
+    namespace :tags, desc: '', swagger: {nested: false, name: '标签'} do
       desc '标签列表'
       get '/' do
         tags = ActsAsTaggableOn::Tag.all

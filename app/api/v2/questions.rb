@@ -17,7 +17,7 @@ module V2
       ~~~
     NOTE
 
-    resources :questions do
+    namespace :questions, desc: '', swagger: {nested: false, name: '问题'} do
       desc '我回答过的问题 | 技师app', {
         headers: DescHeaders.authentication_headers(source: 'engineer'),
         notes: SUMMARY_RESPONSE

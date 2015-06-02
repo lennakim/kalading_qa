@@ -1,7 +1,7 @@
 module V2
   class Answers < Grape::API
 
-    resources :answers do
+    namespace :answers, desc: '', swagger: {nested: false, name: '答案'} do
       desc '采纳答案 | 问答app', {
         headers: DescHeaders.authentication_headers(source: 'customer'),
         notes: <<-NOTE

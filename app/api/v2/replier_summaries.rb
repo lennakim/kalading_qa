@@ -2,7 +2,7 @@ module V2
   class ReplierSummaries < Grape::API
     helpers V2::SharedParams
 
-    resources :replier_summaries do
+    namespace :replier_summaries, desc: '', swagger: {nested: false, name: '收益'} do
       desc '技师收益列表 | 技师app', {
         headers: DescHeaders.authentication_headers(source: 'engineer'),
         notes: <<-NOTE

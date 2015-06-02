@@ -22,6 +22,7 @@ module V2
     add_swagger_documentation base_path: "/api",
                               api_version: 'v2',
                               mount_path: 'doc',
+                              hide_documentation_path: true,
                               markdown: GrapeSwagger::Markdown::KramdownAdapter
   end
 end

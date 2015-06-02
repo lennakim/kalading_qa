@@ -1,7 +1,10 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  get 'doc/v2'
+  if !Rails.env.production?
+    get 'doc/v2'
+  end
+
   mount Base => '/api' #api
 
   root 'questions#index'
