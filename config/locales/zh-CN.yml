@@ -13,6 +13,10 @@ zh-CN:
       question:
         customer_id: '客户'
         content: '内容'
+        tags: '标签'
+        auto_brand_internal_id: '车型品牌'
+        auto_model_internal_id: '车型系列'
+        auto_submodel_internal_id: '车型年款'
       question_assignment:
         question_id: '问题'
         user_internal_id: '用户内部id'

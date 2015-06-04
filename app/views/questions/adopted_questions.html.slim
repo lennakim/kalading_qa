@@ -4,5 +4,5 @@ table.table.table-striped.table-hover.questions
       tr
         = render partial: 'question_and_auto', locals: {question: question}
         td
-          = link_to '编辑', '#', class: 'btn btn-sm'
+          = link_to '编辑', edit_question_path(question), class: 'btn btn-primary btn-sm'
 = paginate @questions

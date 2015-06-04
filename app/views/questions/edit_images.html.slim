@@ -1,0 +1,22 @@
+= form_tag update_images_question_path(@question), method: :put, remote: true, class: 'form-horizontal' do
+  .modal-header
+    button.close[type="button" data-dismiss="modal" aria-hidden="true"]
+      | &times;
+    h4.modal-title
+      | 修改问题图片
+
+  .modal-body
+    h4
+      | 请勾选要删除的图片
+
+    - identifiers = @question.images_identifiers
+    - @question.images.each_with_index do |image, i|
+      div
+        = check_box_tag 'images_identifiers[]', identifiers[i], false, id: "images_identifiers_#{i}", class: 'images_ids_checkbox'
+        label(for="images_identifiers_#{i}")
+          img(src=image.url)
+
+  .modal-footer
+    = submit_tag '删除', 'data-confirm' => '确定要删除图片吗？', class: 'btn btn-primary'
+    button.btn.btn-default[type="button" data-dismiss="modal"]
+      | 关闭

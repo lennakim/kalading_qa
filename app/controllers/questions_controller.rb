@@ -1,5 +1,9 @@
 class QuestionsController < ApplicationController
-  load_resource only: [:nullify, :to_dispatcher, :to_engineer]
+  load_resource only: [:nullify, :to_dispatcher, :to_engineer,
+                       :show, :edit, :update,
+                       :edit_content, :edit_auto_submodel, :edit_tags,
+                       :edit_images, :update_images
+                      ]
 
   def search
     params[:type] ||= 'collected'
@@ -56,11 +60,6 @@ class QuestionsController < ApplicationController
                                               .page(params[:page])
   end
 
-  def show
-    @question = Question.find(params[:id])
-    @editable = false
-  end
-
   def nullify
     authorize! :check, Question
 
@@ -95,6 +94,51 @@ class QuestionsController < ApplicationController
     redirect_to questions_path(state: 'init')
   end
 
+  def show
+  end
+
+  def edit
+  end
+
+  def update
+    @question.update_attributes(question_update_params)
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def edit_content
+    render layout: false
+  end
+
+  def edit_auto_submodel
+    render layout: false
+  end
+
+  def edit_tags
+    render layout: false
+  end
+
+  def edit_images
+    render layout: false
+  end
+
+  def update_images
+    case @question.remove_images(params[:images_identifiers])
+    when nil
+      flash[:notice] = '您没有修改问题图片'
+    when true
+      flash[:notice] = '修改问题图片成功'
+    when false
+      flash[:alert] = '修改问题图片失败'
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   # 示例，以后不需要了可以删掉
   def new
     @question = Question.new
@@ -115,5 +159,9 @@ class QuestionsController < ApplicationController
   # 示例调用的，以后不需要了可以删掉
   def question_params
     params.require(:question).permit({images: []}, :auto_submodel_internal_id, :customer_id, :content)
+  end
+
+  def question_update_params
+    params.require(:question).permit(:content, :auto_submodel_internal_id, {tag_ids: []})
   end
 end

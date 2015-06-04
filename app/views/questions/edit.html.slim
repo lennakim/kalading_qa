@@ -1,0 +1,9 @@
+.row
+  .col-md-8
+    .question
+      = render 'questions/detail_editable'
+
+      hr
+
+      .answers
+        = render partial: 'answers/answer_editable', collection: @question.persist_answers, as: :answer

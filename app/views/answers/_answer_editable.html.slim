@@ -14,5 +14,8 @@
           = link_to '采纳', adopt_answer_path(answer), method: :put, data: {confirm: '确定要采纳这个答案吗？'}, class: 'btn btn-default'
   .answer_content
     = answer.content
+    = link_to_with_modal edit_answer_path(answer), class: 'remote_modal_link', modal_id: "edit_answer_content_#{answer.id}_modal", 'data-toggle' => '' do
+      i.fa.fa-pencil
+      |  修改
 
 hr

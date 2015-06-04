@@ -108,6 +108,26 @@ class Question < ActiveRecord::Base
     end
   end
 
+  def remove_images(image_ids)
+    return if image_ids.blank?
+
+    image_ids = Array.wrap(image_ids)
+
+    uploaders = images.select do |uploader|
+      uploader.file.filename.in?(image_ids)
+    end
+
+    # 修改images字段
+    write_uploader(:images, self.images_identifiers - image_ids)
+    if save
+      # 删除对应图片文件
+      uploaders.each { |uploader| uploader.remove! }
+      true
+    else
+      false
+    end
+  end
+
   def persist_answers
     answers.select { |answer| answer.persisted? }
   end

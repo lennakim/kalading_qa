@@ -1,11 +1,11 @@
 class AnswersController < ApplicationController
   before_action :find_question, only: [:new, :create]
   before_action :check_replier_type, only: [:new, :create]
-  before_action :find_answer, only: [:adopt]
+  load_resource only: [:edit, :update, :adopt]
 
   def new
     @answer = @question.answers.build
-    @editable = true
+    @adoptable = true
   end
 
   def create
@@ -21,8 +21,20 @@ class AnswersController < ApplicationController
       flash[:notice] = '添加答案成功'
       redirect_to my_processed_questions_path
     else
-      @editable = true
+      @adoptable = true
       render action: 'new'
+    end
+  end
+
+  def edit
+    render layout: false
+  end
+
+  def update
+    @answer.update_attributes(answer_update_params)
+
+    respond_to do |format|
+      format.js
     end
   end
 
@@ -41,15 +53,15 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
   end
 
-  def find_answer
-    @answer = Answer.find(params[:id])
-  end
-
   def check_replier_type
     @by_specialist = params[:replier_source] == 'specialist'
   end
 
   def answer_params
     params.require(:answer).permit(:content, :replier_id, :replier_type)
+  end
+
+  def answer_update_params
+    params.require(:answer).permit(:content)
   end
 end

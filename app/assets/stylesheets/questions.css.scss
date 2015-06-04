@@ -40,6 +40,18 @@
       }
     }
   }
+
+  a.remote_modal_link {
+    margin-left: 20px;
+    color: #999;
+  }
+  a.remote_modal_link.left_align {
+    margin-left: 0;
+  }
+
+  input.images_ids_checkbox {
+    margin-right: 24px;
+  }
 }
 
 table.questions {

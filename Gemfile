@@ -27,6 +27,7 @@ gem 'kaminari'
 gem 'kaminari-bootstrap', '~> 3.0.1'
 gem 'slim-rails'
 gem 'simple_form'
+gem "font-awesome-rails"
 
 # background processing
 gem 'sidekiq'

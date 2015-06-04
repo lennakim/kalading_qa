@@ -1,0 +1,17 @@
+= simple_form_for @question, method: :put, remote: true, html: { class: 'form-horizontal' } do |f|
+  .modal-header
+    button.close[type="button" data-dismiss="modal" aria-hidden="true"]
+      | &times;
+    h4.modal-title
+      | 修改车型
+
+  .modal-body
+    = f.input :auto_brand_internal_id, collection: AutoBrand.all, label_method: :name, value_method: :internal_id, input_html: {class: 'auto_brand_select'}
+    = f.input :auto_model_internal_id, collection: [], input_html: {class: 'auto_model_select'}
+    = f.input :auto_submodel_internal_id, collection: [], input_html: {class: 'auto_submodel_select'}
+
+  .modal-footer
+    button.btn.btn-primary[type="submit"]
+      | 保存
+    button.btn.btn-default[type="button" data-dismiss="modal"]
+      | 关闭

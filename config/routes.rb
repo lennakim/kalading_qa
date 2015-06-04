@@ -16,11 +16,16 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: 'sessions' }
   devise_for :admins, controllers: { sessions: 'admins/sessions' }
 
-  resources :questions, only: [:index, :new, :create, :show] do
+  resources :questions, only: [:index, :new, :create, :show, :edit, :update] do
     member do
       put :nullify
       put :to_dispatcher
       put :to_engineer
+      get :edit_content
+      get :edit_tags
+      get :edit_auto_submodel
+      get :edit_images
+      put :update_images
     end
 
     collection do
@@ -33,10 +38,18 @@ Rails.application.routes.draw do
     resources :answers, only: [:new, :create]
   end
 
-  resources :answers, only: [] do
+  resources :answers, only: [:edit, :update] do
     member do
       put :adopt
     end
+  end
+
+  resources :auto_brands, only: [] do
+    resources :auto_models, only: [:index]
+  end
+
+  resources :auto_models, only: [] do
+    resources :auto_submodels, only: [:index]
   end
 
   # 问题库暂时不用question_bases表

@@ -1,0 +1,10 @@
+var modal = $('.modal.in')
+
+<% if @question.errors.any? -%>
+  var modalBody = modal.find('.modal-body')
+  modalBody.find('p.text-danger').remove()
+  modalBody.prepend('<p class="text-danger">保存失败！<%= @question.errors.full_messages.join(". ") %></p>')
+<% else -%>
+  <% flash[:notice] = '修改问题成功' -%>
+  window.location.reload()
+<% end %>
