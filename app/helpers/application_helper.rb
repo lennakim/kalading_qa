@@ -16,4 +16,8 @@ module ApplicationHelper
 
     link + render('shared/modal_container', id: modal_id, modal_class: modal_class)
   end
+
+  def current_user_info
+    "角色：#{translate_roles(current_user.role_list).join('、')}，姓名：#{current_user.name}"
+  end
 end

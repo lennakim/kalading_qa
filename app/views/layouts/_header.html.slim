@@ -14,4 +14,7 @@ nav.navbar.navbar-default
           - if admin_sign_in_as_user?
             li= link_to '记得注销！', destroy_user_session_path, method: :delete, class: 'btn btn-danger admin_cleanup_track'
           - else
-            li= link_to '注销', destroy_user_session_path, method: :delete, class: 'btn btn-link'
+            - if Rails.env.production?
+              li= link_to '注销', destroy_user_session_path, method: :delete, class: 'btn btn-link'
+            - else
+              li= link_to '注销', destroy_user_session_path, method: :delete, class: 'btn btn-link', title: current_user_info
