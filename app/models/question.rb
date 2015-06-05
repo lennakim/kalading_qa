@@ -114,7 +114,8 @@ class Question < ActiveRecord::Base
     image_ids = Array.wrap(image_ids)
 
     uploaders = images.select do |uploader|
-      uploader.file.filename.in?(image_ids)
+      identifier = File.basename(uploader.file.path)
+      identifier.in?(image_ids)
     end
 
     # 修改images字段
