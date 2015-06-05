@@ -43,6 +43,7 @@ gem 'cancan'
 gem 'rest-client'
 gem 'acts-as-taggable-on', '~> 3.4'
 gem 'colorize'
+gem 'ruby-pinyin'
 
 group :development, :test do
   gem 'thin'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150529003721) do
+ActiveRecord::Schema.define(version: 20150605015934) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",               limit: 255, default: "", null: false
@@ -50,9 +50,11 @@ ActiveRecord::Schema.define(version: 20150529003721) do
     t.string   "internal_id", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name_pinyin", limit: 255
   end
 
   add_index "auto_brands", ["internal_id"], name: "index_auto_brands_on_internal_id", using: :btree
+  add_index "auto_brands", ["name_pinyin"], name: "index_auto_brands_on_name_pinyin", using: :btree
 
   create_table "auto_models", force: :cascade do |t|
     t.string   "name",                   limit: 255, null: false
