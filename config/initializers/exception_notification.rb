@@ -42,3 +42,12 @@ ExceptionNotification.configure do |config|
   # }
 
 end
+
+# Monkey Patch
+# deliver方法已经被废弃，并且在Rails 5中将要被移除
+# 此处用deliver_now代替了deliver方法
+ExceptionNotifier::EmailNotifier.class_eval do
+  def call(exception, options={})
+    create_email(exception, options).deliver_now
+  end
+end

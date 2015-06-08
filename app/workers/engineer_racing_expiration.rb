@@ -1,6 +1,6 @@
 class EngineerRacingExpiration
   include Sidekiq::Worker
-  sidekiq_options queue: :"#{Rails.env}_default"
+  sidekiq_options queue: :"#{Rails.env}_default", retry: 2
 
   # 一段时间后没技师回答（抢到没回答也算没人回答），则问题给专家
   def perform(question_id)

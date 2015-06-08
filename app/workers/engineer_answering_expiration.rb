@@ -1,6 +1,6 @@
 class EngineerAnsweringExpiration
   include Sidekiq::Worker
-  sidekiq_options queue: :"#{Rails.env}_default"
+  sidekiq_options queue: :"#{Rails.env}_default", retry: 2
 
   def perform(question_assignment_id)
     assignment = QuestionAssignment.where(id: question_assignment_id).first

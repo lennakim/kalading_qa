@@ -12,7 +12,7 @@ nav.navbar.navbar-default
           = submit_tag '搜索', class: 'btn btn-default'
         ul.nav.navbar-nav.navbar-right
           - if admin_sign_in_as_user?
-            li= link_to '记得注销！', destroy_user_session_path, method: :delete, class: 'btn btn-danger admin_cleanup_track'
+            li= link_to '记得注销！', destroy_user_session_path, method: :delete, class: 'btn btn-danger admin_cleanup_track', title: current_user_info
           - else
             - if Rails.env.production?
               li= link_to '注销', destroy_user_session_path, method: :delete, class: 'btn btn-link'
