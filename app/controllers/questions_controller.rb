@@ -1,6 +1,5 @@
 class QuestionsController < ApplicationController
-  load_resource only: [:nullify, :to_dispatcher, :to_engineer,
-                       :show, :edit, :update,
+  load_resource only: [:nullify, :to_dispatcher, :to_engineer, :update,
                        :edit_content, :edit_auto_submodel, :edit_tags,
                        :edit_images, :update_images
                       ]
@@ -31,7 +30,14 @@ class QuestionsController < ApplicationController
     params[:state] ||= 'init'
     authorize! :"read_#{params[:state]}", Question
 
-    @questions = Question.where(state: params[:state]).page(params[:page])
+    @questions = Question.where(state: params[:state])
+                         .includes(:auto_submodel)
+                         .page(params[:page])
+
+    if params[:state].in?(%[answered adopted collected useless])
+      @questions = @questions.order(id: :desc)
+    end
+
     render "#{params[:state]}_questions"
   end
 
@@ -40,7 +46,7 @@ class QuestionsController < ApplicationController
 
     @questions = QuestionAssignment.current(current_user.internal_id)
                                    .where(question_state: 'direct_answer')
-                                   .includes(:question).all.map(&:question)
+                                   .includes(question: [:auto_submodel]).all.map(&:question)
   end
 
   def specialist_questions
@@ -48,7 +54,7 @@ class QuestionsController < ApplicationController
 
     @questions = QuestionAssignment.current(current_user.internal_id)
                                    .where(question_state: 'fallback')
-                                   .includes(:question).all.map(&:question)
+                                   .includes(question: [:auto_submodel]).all.map(&:question)
   end
 
   def my_processed_questions
@@ -56,7 +62,7 @@ class QuestionsController < ApplicationController
 
     @question_assignments = QuestionAssignment.answered(current_user.internal_id)
                                               .order(updated_at: :desc)
-                                              .includes(:question)
+                                              .includes(question: [:auto_submodel])
                                               .page(params[:page])
   end
 
@@ -95,9 +101,11 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @question = Question.includes(answers: [:replier]).find(params[:id])
   end
 
   def edit
+    @question = Question.includes(answers: [:replier]).find(params[:id])
   end
 
   def update
