@@ -24,6 +24,10 @@ set :keep_releases, 5
 # There is a known bug that prevents sidekiq from starting when pty is true
 set :pty, false
 
+# whenever
+set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
+set :whenever_roles, -> { :cron }
+
 namespace :deploy do
   after :finishing, 'deploy:cleanup'
 end

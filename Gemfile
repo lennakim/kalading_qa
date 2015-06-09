@@ -32,6 +32,7 @@ gem "font-awesome-rails"
 # background processing
 gem 'sidekiq'
 gem 'sinatra', :require => false
+gem 'whenever', :require => false
 
 # others
 gem 'jbuilder', '~> 2.0'
